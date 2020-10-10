@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Asap:400,500,700');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Asap,sans-serif;
+}
+
+body{
+  background-color: #24272E;
+}
+
+header{
+  background: white;
+  padding: 20px;
+}
+
+header>h1{
+  color: #24272E;
+  text-align: center;
+}
+
+.main-area{
+  padding-top: 20px;
+}
+
+.before-upload{
+  font-size: 25px;
+  color: white;
+}
+
+.before-upload>p{
+  text-align: center;
+  margin-left: 30%;
+  margin-right: 30%;
+}
