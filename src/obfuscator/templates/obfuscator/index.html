@@ -12,7 +12,7 @@
   <body>
     <header>
       <div class="aligncenter"><h1>Photo obfuscator</h1></div>
-      <div class="alignright">Hello, Participant<br>1234</div>
+      <div class="alignright">Hello, Participant <p id="uid"></p></div>
     </header>
 
     <div class="main-area">
@@ -25,5 +25,10 @@
 
       <div class="after upload"></div>
     </div>
+    <script>
+      window.onload = function() {
+        document.getElementById("uid").innerHTML = Date.now();
+      };
+    </script>
   </body>
 </html>
