@@ -19,6 +19,6 @@ from obfuscator import views
 
 
 urlpatterns = [
-    path('obfuscator', include('obfuscator.urls')),
+    path('', include('obfuscator.urls')),
     path('admin/', admin.site.urls),
 ]
