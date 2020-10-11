@@ -1,1 +1,1 @@
-web: gunicorn src/obfuscation_project.wsgi
+web: gunicorn src.obfuscation_project.wsgi
