@@ -13,20 +13,35 @@ body{
 
 header{
   background: white;
-  padding: 20px;
-}
-
-header>h1{
+  width: 100%;
+  height: 3.3rem;
   color: #24272E;
   text-align: center;
 }
 
+.aligncenter {
+  padding-top: 1.25rem;
+  padding-bottom: 0.625rem;
+  display: inline-block;
+  position: fixed;
+  left: 41%;
+  font-size: 1vw;
+}
+.alignright {
+  padding-top: 1.25rem;
+  padding-bottom: 0.625rem;
+  display: inline-block;
+  position: fixed;
+  right: 2%;
+  font-size: 1vw;
+}
+
 .main-area{
-  padding-top: 20px;
+  padding-top: 1%;
 }
 
 .before-upload{
-  font-size: 25px;
+  font-size: 1.5625rem;
   color: white;
 }
 
@@ -34,4 +49,5 @@ header>h1{
   text-align: center;
   margin-left: 30%;
   margin-right: 30%;
+  font-size: 1.8vw;
 }
