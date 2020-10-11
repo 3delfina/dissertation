@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'ip7&_o!_@wf7))2%j&8q7zh6j*mwo!25!_s(ku(kl-x3#9*uc8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = Fakse
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
