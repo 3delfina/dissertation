@@ -1,0 +1,25 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'obfuscator/style.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Photo Obfuscator</title>
+  <head>
+
+  <body>
+    <header>
+      <div class="aligncenter"><h1>Photo obfuscator</h1></div>
+      <div class="alignright">Hello, Participant <p>{{ participant.participant_id}}</p></div>
+    </header>
+
+    <div class="main-area">
+        <div class="after upload">
+          <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_photo.url}}">
+        </div>
+    </div>
+
+  </body>
+</html>

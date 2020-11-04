@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'obfuscator/style.css' %}">
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Photo Obfuscator</title>
@@ -17,13 +17,22 @@
 
     <div class="main-area">
 
-      <div class="before-upload">
-      <p>Photo obfuscator allows you to protect your and other
-         people’s privacy by applying various obfuscation techniques on the photo
-         you upload. Try it and give us feedback!</p>
-      </div>
+        <div class="before-upload">
+        <p>Photo obfuscator allows you to protect your and other
+           people’s privacy by applying various obfuscation techniques on the photo
+           you upload. Try it and give us feedback!</p>
+        <br><p><center><form method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form></center></p>
+        </div>
 
-      <div class="after upload"></div>
+        <!-- <div class="after upload">
+          <img src="{{participant.participant_photo}}" alt="Uploaded photo" width="250" height="250">
+        </div> -->
+          <!-- <img src="{{participant.participant_photo.url}}" alt="Uploaded photo" width="250" height="250"> -->
+
     </div>
     <script>
       window.onload = function() {
