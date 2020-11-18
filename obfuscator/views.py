@@ -2,33 +2,44 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
-from .obfuscate  import blur_image, pixelate_image
+from .obfuscate import blur_image, pixelate_image, number_faces
 from .forms import ParticipantForm
 from .models import Participant
 from django.conf import settings
 import os
 
 
-def get_blur(participant):
-    print("Inside get blur")
-    photo_filename = participant.participant_photo.name
-    blur_path = os.path.join(settings.MEDIA_ROOT, photo_filename.replace(".", "_participant_blur."))
-    blur_path = blur_path.replace("images", "images/blur")
+def _get_file_paths(filename_original, filename_addition, dirname):
+    original_path = os.path.join(settings.MEDIA_ROOT, filename_original)
+    obfuscation_filename = filename_original.replace(".", filename_addition) \
+        .replace("images", dirname)
+    obfuscation_path = os.path.join(settings.MEDIA_ROOT, obfuscation_filename)
+    return original_path, obfuscation_path, obfuscation_filename
 
-    #image = cv2.imread(participant.participant_photo)
-    blur_image(os.path.join(settings.MEDIA_ROOT, photo_filename), blur_path)
-    participant.participant_blur = photo_filename.replace(".", "_participant_blur.").replace("images", "images/blur")
+
+def get_blur(participant):
+    original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
+                                                                            "_participant_blur.", "images/blur")
+    blur_image(original_path, obfuscation_path)
+    participant.participant_blur = obfuscation_filename
     return participant
 
-def get_pixelation(participant):
-    print("Inside get pixelation")
-    photo_filename = participant.participant_photo.name
-    pixel_path = os.path.join(settings.MEDIA_ROOT, photo_filename.replace(".", "_participant_pixel."))
-    pixel_path = pixel_path.replace("images", "images/pixel")
 
-    #image = cv2.imread(participant.participant_photo)
-    pixelate_image(os.path.join(settings.MEDIA_ROOT, photo_filename), pixel_path)
-    participant.participant_pixel = photo_filename.replace(".", "_participant_pixel.").replace("images", "images/pixel")
+def get_pixelation(participant):
+    original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
+                                                                            "_participant_pixel.", "images/pixel")
+    pixelate_image(original_path, obfuscation_path)
+    participant.participant_pixel = obfuscation_filename
+    return participant
+
+
+def locate_faces(participant):
+    original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
+                                                                            "_participant_faces.", "images/faces")
+    faces_str, count = number_faces(original_path, obfuscation_path)
+    participant.face_count = count
+    participant.faces_location_arr = faces_str
+    participant.participant_faces = obfuscation_filename
     return participant
 
 
@@ -39,6 +50,7 @@ def index(request):
         # TODO: ask for user's permission to save photo
         if form.is_valid():
             participant = form.save()
+            participant = locate_faces(participant)
             participant = get_blur(participant)
             participant = get_pixelation(participant)
             participant.save()
@@ -48,6 +60,7 @@ def index(request):
     else:
         form = ParticipantForm()
     return render(request, "obfuscator/index.html", {'form': form})
+
 
 def process():
     # TODO: prepare various obfuscation results
