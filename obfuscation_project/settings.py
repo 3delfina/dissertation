@@ -22,14 +22,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'), )
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -41,7 +40,6 @@ SECRET_KEY = 'ip7&_o!_@wf7))2%j&8q7zh6j*mwo!25!_s(ku(kl-x3#9*uc8'
 DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
-
 
 # Application definition
 
@@ -80,7 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-		        'django.template.context_processors.media',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -91,7 +89,7 @@ WSGI_APPLICATION = 'obfuscation_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+RUNNING_DEVSERVER = (len(sys.argv) > 1 and (sys.argv[1] in ['runserver', 'makemigrations', 'migrate']))
 
 if RUNNING_DEVSERVER:
     DATABASES = {
@@ -123,7 +121,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -136,7 +133,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
