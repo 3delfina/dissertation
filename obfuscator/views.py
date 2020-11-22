@@ -3,9 +3,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
 from .obfuscate import blur_image, pixelate_image, number_faces
-from .forms import ParticipantForm
+from .forms import ParticipantForm, FacesForm
 from .models import Participant
 from django.conf import settings
+
+import ast
 import os
 
 
@@ -17,18 +19,18 @@ def _get_file_paths(filename_original, filename_addition, dirname):
     return original_path, obfuscation_path, obfuscation_filename
 
 
-def get_blur(participant):
+def get_blur(participant, faces):
     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
                                                                             "_participant_blur.", "images/blur")
-    blur_image(original_path, obfuscation_path)
+    blur_image(original_path, obfuscation_path, faces)
     participant.participant_blur = obfuscation_filename
     return participant
 
 
-def get_pixelation(participant):
+def get_pixelation(participant, face_choices_int):
     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
                                                                             "_participant_pixel.", "images/pixel")
-    pixelate_image(original_path, obfuscation_path)
+    pixelate_image(original_path, obfuscation_path, face_choices_int)
     participant.participant_pixel = obfuscation_filename
     return participant
 
@@ -51,17 +53,27 @@ def index(request):
         if form.is_valid():
             participant = form.save()
             participant = locate_faces(participant)
-            participant = get_blur(participant)
-            participant = get_pixelation(participant)
             participant.save()
-            context = {'participant': participant}
-            return render(request, 'obfuscator/display.html', context)
-            # return redirect('display', participant_id)
+            # return render(request, 'obfuscator/display.html', {'participant': participant})
+            return redirect('display', participant.participant_id)
     else:
         form = ParticipantForm()
     return render(request, "obfuscator/index.html", {'form': form})
 
 
-def process():
-    # TODO: prepare various obfuscation results
-    pass
+def display(request, participant_id):
+    participant = Participant.objects.get(participant_id=participant_id)
+    form = FacesForm(participant.face_count, request.POST)
+    context = {'participant': participant, 'form': form}
+
+    if form.is_valid():
+        face_choices = form.cleaned_data['face_choices']
+        all_faces = ast.literal_eval(participant.faces_location_arr)
+        chosen_faces = [all_faces[int(i) - 1] for i in face_choices]
+        participant = get_blur(participant, chosen_faces)
+        participant = get_pixelation(participant, chosen_faces)
+        participant.save()
+        context["display"] = 1
+        return render(request, 'obfuscator/display.html', context)
+
+    return render(request, 'obfuscator/display.html', context)

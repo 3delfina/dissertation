@@ -16,13 +16,22 @@
     </header>
 
     <div class="main-area">
+
+
           <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_photo.url}}">
 
-          <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_blur.url}}">
-
           <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_faces.url}}">
+          <form method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" value="Submit">
+          </form>
 
+        {% if display %}
+          <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_blur.url}}">
           <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_pixel.url}}">
+        {% endif %}
+
 
     </div>
   </body>
