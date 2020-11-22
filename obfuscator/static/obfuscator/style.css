@@ -9,6 +9,7 @@
 
 body{
   background-color: #24272E;
+  color: white;
 }
 
 header{
@@ -17,6 +18,9 @@ header{
   height: 3.3rem;
   color: #24272E;
   text-align: center;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
 }
 
 .aligncenter {
@@ -37,7 +41,7 @@ header{
 }
 
 .main-area{
-  padding-top: 1%;
+  padding-top: 3.4rem;;
 }
 
 .before-upload{
