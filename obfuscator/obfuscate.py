@@ -18,10 +18,9 @@ def blur_face(image, factor=3.0):
     return cv2.GaussianBlur(image, (kW, kH), sigmaX=0)
 
 
-def blur_image(img_path, img_path_final):
+def blur_image(img_path, img_path_final, faces):
     img = cv2.imread(img_path)
     # img = imutils.resize(img, width=500)
-    faces = _get_faces(img)
     count = 1
     for (x, y, w, h) in faces:
         print(count)
@@ -39,12 +38,11 @@ def pixelate_face(image):
     return cv2.resize(temp, dsize=(w, h), interpolation=cv2.INTER_NEAREST)
 
 
-def pixelate_image(img_path, img_path_final):
+def pixelate_image(img_path, img_path_final, faces):
     print("from pixealate")
     print(img_path)
     print(img_path_final)
     img = cv2.imread(img_path)
-    faces = _get_faces(img)
     for (x, y, w, h) in faces:
         region_of_interest = img[y:y + h, x:x + w]
         img[y:y + h, x:x + w] = pixelate_face(region_of_interest)
@@ -68,8 +66,9 @@ def _random_bright_color():
 def number_faces(img_path, img_path_final):
     img = cv2.imread(img_path)
     faces = _get_faces(img)
-    count = 1
+    count = 0
     for (x, y, w, h) in faces:
+        count += 1
         color = _random_bright_color()
         cv2.rectangle(img, (x, y), (x + w, y + h), color=color, thickness=2)
         cv2.putText(img, str(count),
@@ -79,7 +78,7 @@ def number_faces(img_path, img_path_final):
                     color=color,
                     thickness=3,
                     lineType=5)
-        count += 1
+
     cv2.imwrite(img_path_final, img)
     faces_str = str(faces.tolist())
     return faces_str, count
