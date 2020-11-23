@@ -8,8 +8,7 @@ gunicorn==20.0.4
 image==1.5.32
 imutils==0.5.3
 numpy==1.19.2
-opencv-contrib-python==4.2.0.34
-opencv-python==4.4.0.44
+opencv-python-headless==4.2.0.32
 packaging==20.4
 Pillow==8.0.0
 psycopg2==2.8.6
