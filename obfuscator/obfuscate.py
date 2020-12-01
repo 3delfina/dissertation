@@ -1,9 +1,10 @@
+from django.conf import settings
+
 import colorsys
+import cv2
+import imutils
 import os
 import random
-
-import cv2
-from django.conf import settings
 
 
 def blur_face(image, factor=3.0):
@@ -23,7 +24,6 @@ def blur_image(img_path, img_path_final, faces):
     # img = imutils.resize(img, width=500)
     count = 1
     for (x, y, w, h) in faces:
-        print(count)
         region_of_interest = img[y:y + h, x:x + w]
         img[y:y + h, x:x + w] = blur_face(region_of_interest)
         count += 1
@@ -63,21 +63,38 @@ def _random_bright_color():
     return r, g, b
 
 
+def _resize_photo(img_path):
+    # 770*552 size is used in past experiments
+    img = cv2.imread(img_path)
+    h, w, _ = img.shape
+    print(str(h) + " " + str(w))
+    if w <= 552 or h <= 552:
+        return
+    if w < h:
+        img = imutils.resize(img, width=552)
+    else:
+        img = imutils.resize(img, height=552)
+    print(img.shape)
+    cv2.imwrite(img_path, img)
+
+
 def number_faces(img_path, img_path_final):
+    _resize_photo(img_path)
     img = cv2.imread(img_path)
     faces = _get_faces(img)
     count = 0
     for (x, y, w, h) in faces:
         count += 1
         color = _random_bright_color()
-        cv2.rectangle(img, (x, y), (x + w, y + h), color=color, thickness=2)
+        cv2.rectangle(img, (x, y), (x + w, y + h), color=color, thickness=3)
+        fontScale = min(w, h)/30
         cv2.putText(img, str(count),
-                    (x + (w // 7 * 3), y - 2),
+                    (x + (w // 9 * 3), y - 5),
                     fontFace=1,
-                    fontScale=2,
+                    fontScale=fontScale,
                     color=color,
-                    thickness=3,
-                    lineType=5)
+                    thickness=4,
+                    lineType=cv2.LINE_AA)
 
     cv2.imwrite(img_path_final, img)
     faces_str = str(faces.tolist())

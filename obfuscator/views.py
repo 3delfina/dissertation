@@ -8,6 +8,7 @@ from .models import Participant
 from django.conf import settings
 
 import ast
+import cv2
 import os
 
 
@@ -44,7 +45,6 @@ def locate_faces(participant):
     participant.participant_faces = obfuscation_filename
     return participant
 
-
 def index(request):
     if request.method == 'POST':
         form = ParticipantForm(request.POST, request.FILES)
@@ -52,6 +52,7 @@ def index(request):
         # TODO: ask for user's permission to save photo
         if form.is_valid():
             participant = form.save()
+
             participant = locate_faces(participant)
             participant.save()
             # return render(request, 'obfuscator/display.html', {'participant': participant})
