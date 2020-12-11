@@ -6,6 +6,7 @@ import imutils
 import os
 import random
 from PIL import Image, ImageFilter, ImageDraw
+import subprocess
 
 
 def blur_face(image, factor=3.0):
@@ -69,6 +70,12 @@ def pixelate_image(img_path, img_path_final, faces):
         result = imgSmall.resize(face.size,Image.NEAREST)
         image.paste(result, box)
     image.save(img_path_final)
+
+
+def deepfake_image(img_path, img_path_final, faces):
+    subprocess.run(["ls", "-l"])
+    subprocess.run(["python3", "DeepPrivacy/anonymize.py", "-s", img_path, "-t", img_path_final])
+    #python3 anonymize.py -s /home/marija/Pictures/Mumm_Marija.jpeg -t /home/marija/Pictures/Mumm_Marija_fake.jpeg
 
 
 def _get_faces(img):

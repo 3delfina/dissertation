@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
-from .obfuscate import blur_image, pixelate_image, number_faces
+from .obfuscate import blur_image, pixelate_image, deepfake_image, number_faces
 from .forms import ParticipantForm, FacesForm
 from .models import Participant
 from django.conf import settings
@@ -36,6 +36,14 @@ def get_pixelation(participant, face_choices_int):
     return participant
 
 
+def get_deepfake(participant, face_choices_int):
+    original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
+                                                                            "_participant_deepfake.", "images/deepfake")
+    deepfake_image(original_path, obfuscation_path, face_choices_int)
+    participant.participant_deepfake = obfuscation_filename
+    return participant
+
+
 def locate_faces(participant):
     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
                                                                             "_participant_faces.", "images/faces")
@@ -44,6 +52,7 @@ def locate_faces(participant):
     participant.faces_location_arr = faces_str
     participant.participant_faces = obfuscation_filename
     return participant
+
 
 def index(request):
     if request.method == 'POST':
@@ -73,6 +82,7 @@ def display(request, participant_id):
         chosen_faces = [all_faces[int(i) - 1] for i in face_choices]
         participant = get_blur(participant, chosen_faces)
         participant = get_pixelation(participant, chosen_faces)
+        participant = get_deepfake(participant, chosen_faces)
         participant.save()
         context["display"] = 1
         return render(request, 'obfuscator/display.html', context)
