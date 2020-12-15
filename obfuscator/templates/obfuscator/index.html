@@ -1,6 +1,7 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'obfuscator/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'obfuscator/header.css' %}">
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,10 +11,16 @@
   <head>
 
   <body>
-    <header>
-      <div class="aligncenter"><h1>Photo obfuscator</h1></div>
-      <div class="alignright">Hello, Participant <p id="uid"></p></div>
-    </header>
+    <div class="topnav">
+      <div class="topnav-centered">
+       <div class="search">Photo Obfuscator</div>
+      </div>
+
+      <!-- Right-aligned links -->
+      <div class="topnav-right">
+        <div class="search"> Hello, Participant <p id="uid"></p></div>
+      </div>
+    </div>
 
     <div class="main-area">
 

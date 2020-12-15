@@ -3,55 +3,35 @@
 *{
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: Asap,sans-serif;
 }
 
-body{
-  background-color: #24272E;
-  color: white;
-}
-
-header{
-  background: white;
-  width: 100%;
-  height: 3.3rem;
-  color: #24272E;
-  text-align: center;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-}
-
-.aligncenter {
-  padding-top: 1.25rem;
-  padding-bottom: 0.625rem;
-  display: inline-block;
-  position: fixed;
-  left: 41%;
-  font-size: 1vw;
-}
-.alignright {
-  padding-top: 1.25rem;
-  padding-bottom: 0.625rem;
-  display: inline-block;
-  position: fixed;
-  right: 2%;
-  font-size: 1vw;
-}
-
 .main-area{
-  padding-top: 3.4rem;;
-}
-
-.before-upload{
   font-size: 1.5625rem;
-  color: white;
 }
 
 .before-upload>p{
   text-align: center;
   margin-left: 30%;
   margin-right: 30%;
-  font-size: 1.8vw;
+}
+
+.error input, .error select {
+    border: 2px red solid;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 49%);
+  grid-column-gap: 10px;
+}
+
+li{
+  list-style:none;
+  justify-content: space-between;
+}
+
+img {
+    width: 95%;
+    object-fit: cover;
 }
