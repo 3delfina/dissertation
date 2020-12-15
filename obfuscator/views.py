@@ -36,10 +36,10 @@ def get_pixelation(participant, face_choices_int):
     return participant
 
 
-def get_deepfake(participant, face_choices_int):
+def get_deepfake(participant, face_choices_int, not_chosen):
     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(participant.participant_photo.name,
                                                                             "_participant_deepfake.", "images/deepfake")
-    deepfake_image(original_path, obfuscation_path, face_choices_int)
+    deepfake_image(original_path, obfuscation_path, face_choices_int, not_chosen)
     participant.participant_deepfake = obfuscation_filename
     return participant
 
@@ -80,9 +80,17 @@ def display(request, participant_id):
         face_choices = form.cleaned_data['face_choices']
         all_faces = ast.literal_eval(participant.faces_location_arr)
         chosen_faces = [all_faces[int(i) - 1] for i in face_choices]
+        print((all_faces))
+        print((chosen_faces))
+        not_chosen = []
+        for i in range(1, len(all_faces)+1):
+            if str(i) not in set(face_choices):
+                not_chosen.append(all_faces[i-1])
+        print("not chosen")
+        print(not_chosen)
         participant = get_blur(participant, chosen_faces)
         participant = get_pixelation(participant, chosen_faces)
-        participant = get_deepfake(participant, chosen_faces)
+        participant = get_deepfake(participant, chosen_faces, not_chosen)
         participant.save()
         context["display"] = 1
         return render(request, 'obfuscator/display.html', context)
