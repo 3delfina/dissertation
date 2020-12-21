@@ -30,7 +30,10 @@
            you upload. Try it and give us feedback!</p>
         <br><p><center><form method = "post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            <table>
+              {{ form.as_table }}
+            </table>
+            <!-- {{ form.as_p }} -->
             <button type="submit">Upload</button>
         </form></center></p>
         </div>

@@ -2,8 +2,9 @@
 from django import forms
 from .models import Participant
 
-
 class ParticipantForm(forms.ModelForm):
+    required_css_class = 'required'
+
     class Meta:
         model = Participant
         error_css_class = 'error'
@@ -11,6 +12,7 @@ class ParticipantForm(forms.ModelForm):
 
 
 class FacesForm(forms.Form):
+    required_css_class = 'required'
 
     def __init__(self, faces_count, *args, **kwargs):
         super(FacesForm, self).__init__(*args, **kwargs)
