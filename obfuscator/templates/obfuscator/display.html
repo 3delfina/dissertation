@@ -24,30 +24,35 @@
 
     <div class="main-area">
       <div class="grid">
-        <div class="column">Original photo
-          <img src="{{ participant.participant_photo.url}}">
-        </div>
-        <div class="column">Faces located
-          <img src="{{ participant.participant_faces.url}}">
-          <form method="POST">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" value="Submit">
-          </form>
-        </div>
-        <div class="column"></div>
-        <div class="column"></div>
+          <div class="column">Original photo
+            <img src="{{ participant.participant_photo.url}}">
+          </div>
+
+          <div class="column">Faces located
+              <img src="{{ participant.participant_faces.url}}">
+              <form method="POST">
+                  {% csrf_token %}
+                  <table>
+                    {{ form.as_table }}
+                  </table>
+                  <input type="submit" value="Submit">
+              </form>
+          </div>
+
+          {% if display %}
+              <div class="column">Blurring
+                <img src="{{ participant.participant_blur.url}}">
+              </div>
+
+              <div class="column">Pixelation
+                <img src="{{ participant.participant_pixel.url}}">
+              </div>
+
+              <div class="column">DeepFake
+                <img src="{{ participant.participant_deepfake.url}}">
+              </div>
+          {% endif %}
       </div>
-
-
-
-        {% if display %}
-          <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_blur.url}}">
-          <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_pixel.url}}">
-          <img style="max-width: 45%; max-height: 60%;" src="{{ participant.participant_deepfake.url}}">
-        {% endif %}
-
-
     </div>
   </body>
 </html>

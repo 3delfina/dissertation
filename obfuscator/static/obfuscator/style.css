@@ -17,10 +17,6 @@ body{
   margin-right: 30%;
 }
 
-.error input, .error select {
-    border: 2px red solid;
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 50%);
@@ -29,11 +25,59 @@ body{
 }
 
 li{
-  list-style:none;
   justify-content: space-between;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+ul {
+    list-style:none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    font-size: 1.3rem;
 }
 
 img {
     width: 100%;
     object-fit: cover;
+}
+
+label {
+  display: inline-block;
+}
+
+label.required{
+  margin: 0;
+  padding: 0;
+}
+
+label.required::after {
+    content: ' *';
+    color: red;
+}
+
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+}
+
+.errorlist li {
+    /* border: 1px solid red; */
+    color: red;
+    /* background: rgba(255, 0, 0, 0.15); */
+    /* list-style-position: inside; */
+    display: block;
+    font-size: 1rem;
+    /* margin: 0 0 3px; */
+    /* padding: 4px 5px; */
+    /* text-align: center;  */
+    /* border-radius: 3px; */
+    /* padding-bottom: 1rem; */
+
+}
+
+#id_face_choices{
+  padding-left: 0;
+  margin: 0;
 }
