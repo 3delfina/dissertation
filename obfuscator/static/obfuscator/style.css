@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Asap:400,500,700');
 
-*{
+body{
   margin: 0;
   padding: 0;
   font-family: Asap,sans-serif;
+  width:100%;
 }
 
 .main-area{
@@ -22,8 +23,9 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 49%);
+  grid-template-columns: repeat(2, 50%);
   grid-column-gap: 10px;
+  margin: 0px 10px 0px 10px;
 }
 
 li{
@@ -32,6 +34,6 @@ li{
 }
 
 img {
-    width: 95%;
+    width: 100%;
     object-fit: cover;
 }
