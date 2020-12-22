@@ -5,10 +5,12 @@ body{
   padding: 0;
   font-family: Asap,sans-serif;
   width:100%;
+  overflow: scroll;
 }
 
 .main-area{
   font-size: 1.5625rem;
+  margin-top: 60px;
 }
 
 .before-upload>p{
@@ -22,6 +24,10 @@ body{
   grid-template-columns: repeat(2, 50%);
   grid-column-gap: 10px;
   margin: 0px 10px 0px 10px;
+}
+
+.column{
+  margin-bottom: 20px;
 }
 
 li{

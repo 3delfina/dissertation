@@ -1,15 +1,17 @@
 .topnav {
-  position: relative;
+  position: fixed;
   overflow: hidden;
   background-color: #333;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
+  top: 0;
+  width: 100%;
 }
 
 .topnav .search {
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 18px 16px;
   text-decoration: none;
   font-size: 17px;
 }
