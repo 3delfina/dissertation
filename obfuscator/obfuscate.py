@@ -6,6 +6,7 @@ import imutils
 import os
 import random
 from PIL import Image, ImageFilter, ImageDraw
+import subprocess
 
 
 def blur_face(image, factor=3.0):
@@ -51,15 +52,6 @@ def pixelate_face(image):
 
 def pixelate_image(img_path, img_path_final, faces):
     # Replicate Pixelate - Mosaic in Photoshop, cell size 15 square.
-    # print("from pixealate")
-    # print(img_path)
-    # print(img_path_final)
-    # img = cv2.imread(img_path)
-    # for (x, y, w, h) in faces:
-    #     region_of_interest = img[y:y + h, x:x + w]
-    #     img[y:y + h, x:x + w] = pixelate_face(region_of_interest)
-    # cv2.imwrite(img_path_final, img)
-
     image = Image.open(img_path)
     for (x, y, w, h) in faces:
         box = (x, y, x+w, y+h)
@@ -69,6 +61,30 @@ def pixelate_image(img_path, img_path_final, faces):
         result = imgSmall.resize(face.size,Image.NEAREST)
         image.paste(result, box)
     image.save(img_path_final)
+
+
+def deepfake_image(img_path, img_path_final, faces, not_chosen):
+    # image = Image.open(img_path)
+    # for (x, y, w, h) in faces:
+    #     box = (x-50, y-50, x+w+10, y+h+10)
+    #     face = image.crop(box)
+    #     face.save(img_path_final)
+    #     subprocess.run(["python3", "DeepPrivacy/anonymize.py", "-s", img_path_final, "-t", img_path_final])
+    #     result = Image.open(img_path_final)
+    #     image.paste(result, box)
+    # image.save(img_path_final)
+    #python3 anonymize.py -s /home/marija/Pictures/Mumm_Marija.jpeg -t /home/marija/Pictures/Mumm_Marija_fake.jpeg
+    subprocess.run(["python3", "DeepPrivacy/anonymize.py", "-s", img_path, "-t", img_path_final])
+    image = Image.open(img_path)
+    result = Image.open(img_path_final)
+    for (x, y, w, h) in not_chosen:
+        box = (x, y-5, x+w, y+h+5)
+        face = image.crop(box)
+        # face.save(img_path_final)
+
+        # result = Image.open(img_path_final)
+        result.paste(face, box)
+    result.save(img_path_final)
 
 
 def _get_faces(img):

@@ -1,6 +1,7 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'obfuscator/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'obfuscator/header.css' %}">
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,29 +11,48 @@
   <head>
 
   <body>
-    <header>
-      <div class="aligncenter"><h1>Photo obfuscator</h1></div>
-      <div class="alignright">Hello, Participant <p>{{ participant.participant_id}}</p></div>
-    </header>
+    <div class="topnav">
+      <div class="topnav-centered">
+       <div class="search">Photo Obfuscator</div>
+      </div>
+
+      <!-- Right-aligned links -->
+      <div class="topnav-right">
+        <div class="search"><i>Participant ID:   </i><u>{{ participant.participant_id}}</u></div>
+      </div>
+    </div>
 
     <div class="main-area">
+      <div class="grid">
+          <div class="column">Original photo
+            <img src="{{ participant.participant_photo.url}}">
+          </div>
 
+          <div class="column">Faces located
+              <img src="{{ participant.participant_faces.url}}">
+              <form method="POST">
+                  {% csrf_token %}
+                  <table>
+                    {{ form.as_table }}
+                  </table>
+                  <input type="submit" value="Submit">
+              </form>
+          </div>
 
-          <img  src="{{ participant.participant_photo.url}}">
+          {% if display %}
+              <div class="column">Blurring
+                <img src="{{ participant.participant_blur.url}}">
+              </div>
 
-          <img  src="{{ participant.participant_faces.url}}">
-          <form method="POST">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" value="Submit">
-          </form>
+              <div class="column">Pixelation
+                <img src="{{ participant.participant_pixel.url}}">
+              </div>
 
-        {% if display %}
-          <img  src="{{ participant.participant_blur.url}}">
-          <img  src="{{ participant.participant_pixel.url}}">
-        {% endif %}
-
-
+              <div class="column">DeepFake
+                <img src="{{ participant.participant_deepfake.url}}">
+              </div>
+          {% endif %}
+      </div>
     </div>
   </body>
 </html>
