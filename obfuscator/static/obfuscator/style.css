@@ -5,7 +5,8 @@ body{
   padding: 0;
   font-family: Asap,sans-serif;
   width:100%;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .main-area{
