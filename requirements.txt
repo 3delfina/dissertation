@@ -21,6 +21,7 @@ dj-database-url==0.5.0
 Django==3.1.2
 django-heroku==0.3.1
 face-detection==0.2.1
+future==0.18.2
 gast==0.4.0
 google-auth==1.23.0
 google-auth-oauthlib==0.4.2
@@ -80,7 +81,7 @@ termcolor==1.1.0
 tifffile==2020.9.3
 toml==0.10.2
 torch==1.6.0+cpu
-torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+torchvision==0.7.0+cpu
 tqdm==4.54.1
 typed-ast==1.4.1
 typing-extensions==3.7.4.3
