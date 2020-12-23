@@ -21,7 +21,7 @@ class Participant(models.Model):
     participant_faces = models.ImageField(upload_to='images/faces', blank=True)
     participant_blur = models.ImageField(upload_to='images/blur', blank=True)
     participant_pixel = models.ImageField(upload_to='images/pixel', blank=True)
-    participant_deepfake = models.ImageField(upload_to='images/deppfake', blank=True)
+    participant_deepfake = models.ImageField(upload_to='images/deepfake', blank=True)
 
     def __str__(self):
         return self.participant_id
