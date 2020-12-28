@@ -79,7 +79,8 @@ tensorflow-estimator==1.14.0
 termcolor==1.1.0
 tifffile==2020.9.3
 toml==0.10.2
-torch==1.7.1+cpu torchvision==0.8.2+cpu torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+https://download.pytorch.org/whl/cpu/torch-1.7.1%2Bcpu-cp36-cp36m-linux_x86_64.whl
+https://download.pytorch.org/whl/cpu/torchvision-0.8.2%2Bcpu-cp36-cp36m-linux_x86_64.whl
 tqdm==4.54.1
 urllib3==1.25.11
 Werkzeug==1.0.1
