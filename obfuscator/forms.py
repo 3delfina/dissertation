@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from .models import Participant
+from .models import Participant, Photo
 import time
 
 class ParticipantForm(forms.ModelForm):
@@ -8,7 +8,7 @@ class ParticipantForm(forms.ModelForm):
 
     class Meta:
         model = Participant
-        fields = ['participant_id', 'participant_photo']
+        fields = ['participant_id']
         # widgets = {
         #     'participant_id': forms.TextInput(attrs={'disabled': True}),
         # }
@@ -20,6 +20,12 @@ class ParticipantForm(forms.ModelForm):
         })
 
         super(ParticipantForm, self).__init__(*args, **kwargs)
+
+class PhotoForm(forms.ModelForm):
+
+    class Meta:
+        model = Photo
+        fields = ['participant_photo']
 
 class FacesForm(forms.Form):
     required_css_class = 'required'
