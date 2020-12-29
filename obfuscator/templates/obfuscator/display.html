@@ -25,11 +25,11 @@
     <div class="main-area">
       <div class="grid">
           <div class="column">Original photo
-            <img src="{{ participant.participant_photo.url}}">
+            <img src="{{ photo.participant_photo.url}}">
           </div>
 
           <div class="column">Faces located
-              <img src="{{ participant.participant_faces.url}}">
+              <img src="{{ photo.participant_faces.url}}">
               <form method="POST">
                   {% csrf_token %}
                   <table>
@@ -41,15 +41,15 @@
 
           {% if display %}
               <div class="column">Blurring
-                <img src="{{ participant.participant_blur.url}}">
+                <img src="{{ photo.participant_blur.url}}">
               </div>
 
               <div class="column">Pixelation
-                <img src="{{ participant.participant_pixel.url}}">
+                <img src="{{ photo.participant_pixel.url}}">
               </div>
 
               <div class="column">DeepFake
-                <img src="{{ participant.participant_deepfake.url}}">
+                <img src="{{ photo.participant_deepfake.url}}">
               </div>
           {% endif %}
       </div>
