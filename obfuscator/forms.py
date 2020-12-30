@@ -27,6 +27,19 @@ class PhotoForm(forms.ModelForm):
         model = Photo
         fields = ['participant_photo']
 
+
+class PhotoReuploadForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['participant_photo']
+        # help_texts = {
+        #     'participant_photo': '',
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super(PhotoReuploadForm, self).__init__(*args, **kwargs)
+        self.fields['participant_photo'].label = "Changed your mind? Upload a different photo"
+
 class FacesForm(forms.Form):
     required_css_class = 'required'
 
@@ -35,3 +48,4 @@ class FacesForm(forms.Form):
         face_choices = tuple((x, x) for x in range(1, faces_count + 1))
         self.fields['face_choices'] = forms.MultipleChoiceField(choices=face_choices,
                                                                 widget=forms.CheckboxSelectMultiple())
+        self.fields['face_choices'].label = "Faces to obfuscate"

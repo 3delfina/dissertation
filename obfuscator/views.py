@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
 from .obfuscate import blur_image, pixelate_image, deepfake_image, number_faces
-from .forms import ParticipantForm, FacesForm, PhotoForm
+from .forms import ParticipantForm, FacesForm, PhotoForm, PhotoReuploadForm
 from .models import Participant, Photo
 from django.conf import settings
 
@@ -85,7 +85,8 @@ def display(request, participant_id):
     photo = Photo.objects.get(id=participant.last_photo_id)
 
     form = FacesForm(photo.face_count, request.POST)
-    context = {'participant': participant, 'photo': photo, 'form': form}
+    photo_form = PhotoReuploadForm(request.POST, request.FILES)
+    context = {'participant': participant, 'photo': photo, 'form': form, 'photo_form': photo_form}
 
     if form.is_valid():
         face_choices = form.cleaned_data['face_choices']
@@ -103,5 +104,15 @@ def display(request, participant_id):
         photo.save()
         context["display"] = 1
         return render(request, 'obfuscator/display.html', context)
+
+    elif photo_form.is_valid():
+        photo = photo_form.save(commit = False)
+        photo.participant = participant
+        photo.save()
+        photo = locate_faces(photo)
+        photo.save()
+        participant.last_photo_id = photo.id
+        participant.save()
+        return redirect('display', participant.participant_id)
 
     return render(request, 'obfuscator/display.html', context)
