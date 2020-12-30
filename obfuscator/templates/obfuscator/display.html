@@ -26,6 +26,7 @@
       <div class="grid">
           <div class="column">Original photo
             <img src="{{ photo.participant_photo.url}}">
+            <div class="small-text"><i>Filename: </i><u>{{ photo.participant_photo.name}}</u></div>
           </div>
 
           <div class="column">Faces located
@@ -35,7 +36,14 @@
                   <table>
                     {{ form.as_table }}
                   </table>
-                  <input type="submit" value="Submit">
+                  <input type="submit" value="Hide selected faces">
+              </form>
+              <form method = "post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <table>
+                    {{ photo_form.as_table }}
+                  </table>
+                  <button type="submit">Upload</button>
               </form>
           </div>
 
