@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<int:participant_id>', views.display, name='display')
+    path('display', views.display, name='display'),
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
 
 if settings.DEBUG:
