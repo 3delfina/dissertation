@@ -50,7 +50,7 @@ ul {
     font-size: 1.3rem;
 }
 
-img {
+.grid img {
     width: 100%;
     object-fit: cover;
 }
