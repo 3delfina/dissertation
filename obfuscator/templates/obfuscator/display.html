@@ -38,7 +38,7 @@
                   <table>
                     {{ form.as_table }}
                   </table>
-                  <button type="submit" onclick="myFunction()">Obfuscate selected</button>
+                  <button type="submit" onclick="showLoadingMsg()">Obfuscate selected</button>
               </form>
               <form method = "post" enctype="multipart/form-data">
                   {% csrf_token %}
@@ -67,7 +67,7 @@
 
 
     <script type="text/javascript" charset="utf-8">
-      function myFunction() {
+      function showLoadingMsg() {
         if ($("input[type=checkbox]:checked").length > 0){
           $.loadingBlockShow({
               imgPath: '../../static/obfuscator/icon.gif'
