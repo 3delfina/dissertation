@@ -135,7 +135,7 @@ def number_faces(img_path, img_path_final):
                     lineType=cv2.LINE_AA)
 
     cv2.imwrite(img_path_final, img)
-    faces_str = str(faces.tolist())
+    faces_str = str(faces.tolist()) if faces else "[]"
     return faces_str, count
     # to recover list of lists from the str:
     # new_faces = ast.literal_eval(faces_str)
