@@ -71,7 +71,8 @@ def index(request):
             participant.last_photo_id = photo.id
             participant.save()
             # return render(request, 'obfuscator/display.html', {'participant': participant})
-            return redirect('display', participant.participant_id)
+            create_session(request, participant.participant_id)
+            return redirect('display')
     else:
         participant_form = ParticipantForm()
         photo_form = PhotoForm()
@@ -80,7 +81,9 @@ def index(request):
                                         'photo_form': photo_form})
 
 
-def display(request, participant_id):
+def display(request):
+    participant_id = access_session(request)
+    print(participant_id)
     participant = Participant.objects.get(participant_id=participant_id)
     photo = Photo.objects.get(id=participant.last_photo_id)
 
@@ -113,6 +116,22 @@ def display(request, participant_id):
         photo.save()
         participant.last_photo_id = photo.id
         participant.save()
-        return redirect('display', participant.participant_id)
+        return redirect('display')
 
+    context["display"] = 1 if photo.participant_deepfake else 0
     return render(request, 'obfuscator/display.html', context)
+
+
+def create_session(request, id):
+    delete_session(request)
+    request.session['id'] = id
+
+
+def access_session(request):
+    return request.session.get('id')
+
+def delete_session(request):
+    try:
+        del request.session['id']
+    except KeyError:
+        pass
