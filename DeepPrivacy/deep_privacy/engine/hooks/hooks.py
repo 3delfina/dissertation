@@ -1,6 +1,8 @@
-import signal
 import pathlib
-from deep_privacy import logger
+import signal
+
+from DeepPrivacy.deep_privacy import logger
+
 from .base import HookBase, HOOK_REGISTRY
 
 
@@ -63,7 +65,7 @@ class CheckpointHook(HookBase):
     def save_validation_checkpoint(self):
         checkpoints = [12, 20, 30, 40, 50]
         for checkpoint_step in checkpoints:
-            checkpoint_step = checkpoint_step * 10**6
+            checkpoint_step = checkpoint_step * 10 ** 6
             previous_global_step = self.global_step() - self.trainer.batch_size()
             if self.global_step() >= checkpoint_step and previous_global_step < checkpoint_step:
                 logger.info("Saving global checkpoint for validation")

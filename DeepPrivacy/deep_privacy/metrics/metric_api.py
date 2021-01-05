@@ -1,14 +1,14 @@
+import multiprocessing
+from typing import List, Dict
+
 import numpy as np
-import skimage
-import skimage.measure
 import torch
 import tqdm
-import multiprocessing
+from DeepPrivacy.deep_privacy import torch_utils
 from skimage.measure import compare_ssim, compare_psnr
-from .perceptual_similarity import PerceptualLoss
-from deep_privacy import torch_utils
+
 from .fid_pytorch import fid as fid_api
-from typing import List, Dict
+from .perceptual_similarity import PerceptualLoss
 
 
 def compute_metrics(
@@ -40,7 +40,7 @@ def check_shape(images1: np.ndarray, images2: np.ndarray):
 
 def l2(images1: np.ndarray, images2: np.ndarray):
     check_shape(images1, images2)
-    difference = (images1 - images2)**2
+    difference = (images1 - images2) ** 2
     rmse = difference.reshape(difference.shape[0], -1)
     rmse = rmse.mean(axis=1) ** 0.5
     return rmse.mean()
@@ -102,7 +102,6 @@ def lpips(images1: np.ndarray, images2: np.ndarray,
             dists = model(im1, im2, normalize=False).cpu().numpy().squeeze()
         distances[start_idx:end_idx] = dists
     if reduce:
-
         return distances.mean()
     assert batch_size == 1
     return distances
@@ -135,7 +134,8 @@ def print_all_metrics(images1: np.ndarray, images2: np.ndarray):
 if __name__ == "__main__":
     import argparse
     import pathlib
-    from deep_privacy import file_util
+    from DeepPrivacy.deep_privacy import file_util
+
     parser = argparse.ArgumentParser()
     parser.add_argument("path1")
     parser.add_argument("path2")

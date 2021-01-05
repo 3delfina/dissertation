@@ -3,7 +3,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 colors = list(matplotlib.colors.cnames.values())
 
 
@@ -63,7 +62,7 @@ def np_make_image_grid(images, nrow, pad=2):
             im = images[im_idx]
             im_idx += 1
             im_result[row * (pad + height): (row) * (pad + height) + height,
-                      col * (pad + width): (col) * (pad + width) + width, :] = im
+            col * (pad + width): (col) * (pad + width) + width, :] = im
     return im_result
 
 
@@ -107,7 +106,7 @@ def pad_im_as(im, target_im):
     assert len(im.shape) == 3
     assert len(target_im.shape) == 3
     assert im.shape[0] <= target_im.shape[0]
-    assert im.shape[1] <= target_im.shape[1],\
+    assert im.shape[1] <= target_im.shape[1], \
         f"{im.shape}, {target_im.shape}"
     pad_h = abs(im.shape[0] - target_im.shape[0]) // 2
     pad_w = abs(im.shape[1] - target_im.shape[1]) // 2

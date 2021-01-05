@@ -1,12 +1,13 @@
+import time
 
 import cv2
-import time
 import numpy as np
 import torch
-from deep_privacy import cli
-from deep_privacy.visualization import utils as vis_utils
-from deep_privacy.utils import BufferlessVideoCapture
-from deep_privacy.build import build_anonymizer
+from DeepPrivacy.deep_privacy import cli
+from DeepPrivacy.deep_privacy.build import build_anonymizer
+from DeepPrivacy.deep_privacy.utils import BufferlessVideoCapture
+from DeepPrivacy.deep_privacy.visualization import utils as vis_utils
+
 # Configs
 torch.backends.cudnn.benchmark = False
 parser = cli.get_parser()
@@ -30,7 +31,7 @@ else:
 frames = 0
 WARMUP = True
 t = time.time()
-while(True):
+while (True):
     # Capture frame-by-frame
     ret, frame = cap.read()
     frame = cv2.resize(frame, (width, height))
@@ -54,7 +55,7 @@ while(True):
         debug_im = cv2.imread(".debug/inference/im0_face0.png")
         debug_im = vis_utils.pad_im_as(debug_im, frame)
         frame = np.concatenate((frame, debug_im))
-    cv2.imshow('frame',frame)
+    cv2.imshow('frame', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

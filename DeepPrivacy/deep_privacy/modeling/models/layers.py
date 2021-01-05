@@ -1,6 +1,6 @@
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
 
 
 def get_padding(kernel_size: int, dilation: int, stride: int):
@@ -28,7 +28,7 @@ class Conv2d(nn.Conv2d):
             nn.init.normal_(self.weight)
         if bias:
             nn.init.constant_(self.bias, val=0)
-        assert not self.padding_mode == "circular",\
+        assert not self.padding_mode == "circular", \
             "conv2d_forward does not support circular padding. Look at original pytorch code"
 
     def _get_weight(self):
@@ -102,7 +102,7 @@ class PixelwiseNormalization(nn.Module):
 
     def forward(self, _inp):
         x, mask = _inp
-        norm = torch.rsqrt((x**2).mean(dim=1, keepdim=True) + 1e-7)
+        norm = torch.rsqrt((x ** 2).mean(dim=1, keepdim=True) + 1e-7)
         return x * norm, mask
 
 
@@ -140,7 +140,7 @@ class OneHotPoseConcat(nn.Module):
 
 
 def transition_features(x_old, x_new, transition_variable):
-    assert x_old.shape == x_new.shape,\
+    assert x_old.shape == x_new.shape, \
         "Old shape: {}, New: {}".format(x_old.shape, x_new.shape)
     return torch.lerp(x_old.float(), x_new.float(), transition_variable)
 
