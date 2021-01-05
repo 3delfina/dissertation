@@ -1,9 +1,7 @@
-import numpy as np
 import torch
-import os
-from .base_model import BaseModel
 
 from . import networks_basic as networks
+from .base_model import BaseModel
 
 
 class DistModel(BaseModel):
@@ -45,7 +43,7 @@ class DistModel(BaseModel):
         self.gpu_ids = gpu_ids
         self.model_name = '%s [%s]' % (model, net)
 
-        if(self.model == 'net-lin'):  # pretrained net + linear layer
+        if (self.model == 'net-lin'):  # pretrained net + linear layer
             self.net = networks.PNetLin(
                 pnet_rand=pnet_rand,
                 pnet_tune=pnet_tune,
@@ -58,20 +56,20 @@ class DistModel(BaseModel):
             if not use_gpu:
                 kw['map_location'] = 'cpu'
 
-            if(not is_train):
+            if (not is_train):
                 #                print('Loading model from: %s'%model_path)
                 state_dict = torch.hub.load_state_dict_from_url(
                     "http://folk.ntnu.no/haakohu/checkpoints/perceptual_similarity/alex.pth", **kw)
                 self.net.load_state_dict(state_dict, strict=False)
 
-        elif(self.model == 'net'):  # pretrained network
+        elif (self.model == 'net'):  # pretrained network
             self.net = networks.PNetLin(
                 pnet_rand=pnet_rand, pnet_type=net, lpips=False)
-        elif(self.model in ['L2', 'l2']):
+        elif (self.model in ['L2', 'l2']):
             # not really a network, only for testing
             self.net = networks.L2(use_gpu=use_gpu, colorspace=colorspace)
             self.model_name = 'L2'
-        elif(self.model in ['DSSIM', 'dssim', 'SSIM', 'ssim']):
+        elif (self.model in ['DSSIM', 'dssim', 'SSIM', 'ssim']):
             self.net = networks.DSSIM(use_gpu=use_gpu, colorspace=colorspace)
             self.model_name = 'SSIM'
         else:
@@ -91,14 +89,14 @@ class DistModel(BaseModel):
         else:  # test mode
             self.net.eval()
 
-        if(use_gpu):
+        if (use_gpu):
             self.net.to(gpu_ids[0])
             self.net = torch.nn.DataParallel(self.net, device_ids=gpu_ids)
-            if(self.is_train):
+            if (self.is_train):
                 self.rankLoss = self.rankLoss.to(
                     device=gpu_ids[0])  # just put this on GPU0
 
-        if(printNet):
+        if (printNet):
             print('---------- Networks initialized -------------')
             networks.print_network(self.net)
             print('-----------------------------------------------')

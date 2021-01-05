@@ -1,9 +1,11 @@
-import torch.nn as nn
+from typing import List
+
 import numpy as np
 import torch
-from typing import List
-from . import layers
+import torch.nn as nn
+
 from . import iconv
+from . import layers
 
 
 def get_conv(ctype, post_act):

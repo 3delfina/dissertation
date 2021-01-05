@@ -1,5 +1,4 @@
-from deep_privacy.utils import build_from_cfg, Registry
-
+from DeepPrivacy.deep_privacy.utils import build_from_cfg, Registry
 
 DETECTOR_REGISTRY = Registry("DETECTOR_REGISTRY")
 

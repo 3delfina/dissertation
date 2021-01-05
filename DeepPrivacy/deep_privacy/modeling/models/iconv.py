@@ -1,8 +1,8 @@
 import torch
+
 from . import layers
 
 eps = 1e-2
-
 
 pconv_settings = {
     4: {"dilation": 1, "kernel_size": 3},
@@ -50,7 +50,7 @@ class ExpectedValue(torch.nn.Module):
                 dilation=dilation
             )
             self.avg_pool.weight.requires_grad = False
-            self.avg_pool.weight.data = self.avg_pool.weight.data.zero_() + 1 / kernel_size**2
+            self.avg_pool.weight.data = self.avg_pool.weight.data.zero_() + 1 / kernel_size ** 2
         else:
             self.avg_pool = torch.nn.AvgPool2d(
                 kernel_size, stride, padding=padding)
@@ -104,6 +104,6 @@ class IConv(layers.Conv2d):
         new_mask = self.mask_activation(new_mask)
         new_mask = (new_mask - 0.5) * 2 + 1e-6
         new_mask = new_mask.clamp(0, 1)  # Fix potential roundoff errors.
-        assert output.shape[2:] == new_mask.shape[2:],\
+        assert output.shape[2:] == new_mask.shape[2:], \
             f"Output shape: {output.shape}, new_mask: {new_mask.shape}"
         return output, new_mask

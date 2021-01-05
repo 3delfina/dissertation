@@ -1,6 +1,6 @@
-from .mask_util import generate_mask
-from .custom import CustomDataset
 from .build import DATASET_REGISTRY
+from .custom import CustomDataset
+from .mask_util import generate_mask
 
 
 @DATASET_REGISTRY.register_module

@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from PIL import Image, ImageOps
-from deep_privacy.modeling.models.utils import get_transition_value
+from DeepPrivacy.deep_privacy.modeling.models.utils import get_transition_value
 
 
 def read_image(filepath, format=None):
@@ -168,4 +168,5 @@ def progressive_decorator(func, get_transition_value):
                 imsize
             )
         return batch
+
     return decorator

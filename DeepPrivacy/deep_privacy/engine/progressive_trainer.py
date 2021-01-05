@@ -1,7 +1,8 @@
 import numpy as np
-from deep_privacy import torch_utils, logger
+from DeepPrivacy.deep_privacy import torch_utils, logger
+from DeepPrivacy.deep_privacy.dataset import build_dataloader_train, build_dataloader_val
+
 from .trainer import Trainer
-from deep_privacy.dataset import build_dataloader_train, build_dataloader_val
 
 
 class ProgressiveTrainer(Trainer):
@@ -46,11 +47,11 @@ class ProgressiveTrainer(Trainer):
                 self.train_step()
             self._update_transition_value()
         # Check that grow phase happens at correct spot
-        assert self.global_step >= self.prev_transition + transition_iters,\
-            f"Global step: {self.global_step}, batch size: {self.batch_size()}, prev_transition: {self.prev_transition}" +\
+        assert self.global_step >= self.prev_transition + transition_iters, \
+            f"Global step: {self.global_step}, batch size: {self.batch_size()}, prev_transition: {self.prev_transition}" + \
             f" transition iters: {transition_iters}"
-        assert self.global_step - self.batch_size() <= self.prev_transition + transition_iters,\
-            f"Global step: {self.global_step}, batch size: {self.batch_size()}, prev_transition: {self.prev_transition}" +\
+        assert self.global_step - self.batch_size() <= self.prev_transition + transition_iters, \
+            f"Global step: {self.global_step}, batch size: {self.batch_size()}, prev_transition: {self.prev_transition}" + \
             f" transition iters: {transition_iters}"
 
     def _update_transition_value(self):

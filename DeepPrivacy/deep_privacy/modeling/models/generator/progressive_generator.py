@@ -1,10 +1,11 @@
-import torch.nn as nn
 import torch
-from .. import layers, blocks
-from ..build import GENERATOR_REGISTRY
+import torch.nn as nn
+
 from .base import RunningAverageGenerator
 from .gblocks import LatentVariableConcat, UnetSkipConnection
+from .. import layers, blocks
 from ..base import ProgressiveBase, FromRGB
+from ..build import GENERATOR_REGISTRY
 from ..utils import generate_pose_channel_images
 
 
@@ -68,8 +69,8 @@ class Generator(RunningAverageGenerator, ProgressiveBase):
         self.concat_input_mask = conv2d_config.conv.type in ["conv", "gconv"]
 
         self._one_hot_pose = (
-            not self.cfg.models.generator.scalar_pose_input
-            and self.cfg.models.pose_size > 0)
+                not self.cfg.models.generator.scalar_pose_input
+                and self.cfg.models.pose_size > 0)
         self._init_decoder()
         self._init_encoder()
 
@@ -114,7 +115,7 @@ class Generator(RunningAverageGenerator, ProgressiveBase):
         for name, module in self.decoder.named_children():
             if isinstance(
                     module, ToRGB) or isinstance(
-                    module, layers.TransitionBlock):
+                module, layers.TransitionBlock):
                 continue
             decoder.add_module(name, module)
         self.decoder = decoder
@@ -239,7 +240,8 @@ class Generator(RunningAverageGenerator, ProgressiveBase):
 
 
 if __name__ == "__main__":
-    from deep_privacy.config import Config, default_parser
+    from DeepPrivacy.deep_privacy.config import Config, default_parser
+
     args = default_parser().parse_args()
     cfg = Config.fromfile(args.config_path)
 

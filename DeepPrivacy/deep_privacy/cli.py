@@ -1,10 +1,12 @@
-import pathlib
-import os
-import typing
 import argparse
-from deep_privacy import logger
-from deep_privacy.inference.deep_privacy_anonymizer import DeepPrivacyAnonymizer
-from deep_privacy.build import build_anonymizer, available_models
+import os
+import pathlib
+import typing
+
+from DeepPrivacy.deep_privacy import logger
+from DeepPrivacy.deep_privacy.build import build_anonymizer, available_models
+from DeepPrivacy.deep_privacy.inference.deep_privacy_anonymizer import DeepPrivacyAnonymizer
+
 video_suffix = [".mp4"]
 image_suffix = [".jpg", ".jpeg", ".png"]
 
@@ -51,7 +53,7 @@ def get_target_paths(source_paths: typing.List[pathlib.Path],
 
 def get_source_files(source_path: str):
     source_path = pathlib.Path(source_path)
-    assert source_path.is_file() or source_path.is_dir(),\
+    assert source_path.is_file() or source_path.is_dir(), \
         f"Did not find file or directory: {source_path}"
     if source_path.is_file():
         return [source_path]
@@ -93,7 +95,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--opts", default=None, type=str,
         help='can override default settings. For example:\n' +
-        '\t opts="anonymizer.truncation_level=5, anonymizer.batch_size=32"')
+             '\t opts="anonymizer.truncation_level=5, anonymizer.batch_size=32"')
     parser.add_argument(
         "--start_time", default=0, type=int,
         help="Start time for anonymization in case of video input. By default, the whole video is anonymized"
@@ -107,7 +109,9 @@ def get_parser() -> argparse.ArgumentParser:
 
 def main():
     parser = get_parser()
-    args = parser.parse_args()    
+    args = parser.parse_args()
+    print("arguments")
+    print(args)
     anonymizer, cfg = build_anonymizer(
         args.model, opts=args.opts, config_path=args.config_path,
         return_cfg=True)
@@ -133,9 +137,40 @@ def main():
                                    video_target_path,
                                    start_time=args.start_time,
                                    end_time=args.end_time)
+    face_boxes = []
     if len(image_paths) > 0:
-        anonymizer.anonymize_image_paths(image_paths, image_target_paths)
+        face_boxes = anonymizer.anonymize_image_paths(image_paths, image_target_paths)
+    print(face_boxes)
+    # return face_boxes
 
 
-if __name__ == "__main__":
-    main()
+def anonymize_and_get_faces(source_path, target_path):
+    # Namespace(config_path=None, end_time=None, model='fdf128_rcnn512', opts=None,
+    #           source_path='/home/marija/Downloads/lots.jpg', start_time=0, step=None,
+    #           target_path='/home/marija/Downloads/lots-fake.jpg')
+    model = 'fdf128_rcnn512'
+    # parser = get_parser()
+    # args = parser.parse_args()
+    anonymizer, cfg = build_anonymizer(
+        model, opts=None, config_path=None,
+        return_cfg=True)
+    output_dir = cfg.output_dir
+    source_paths = get_source_files(source_path)
+
+    image_paths = [source_path for source_path in source_paths
+                   if source_path.suffix in image_suffix]
+
+    image_target_paths = []
+    if len(image_paths) > 0:
+        image_target_paths = get_target_paths(
+            image_paths, target_path,
+            output_dir)
+    assert len(image_paths) == len(image_target_paths)
+    face_boxes = []
+    if len(image_paths) > 0:
+        face_boxes = anonymizer.anonymize_image_paths(image_paths, image_target_paths)
+    print(face_boxes)
+    return face_boxes
+
+# if __name__ == "__main__":
+#     main()
