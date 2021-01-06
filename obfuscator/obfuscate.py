@@ -32,12 +32,20 @@ def pixelate_image(img_path, img_path_final, faces):
 
 
 def deepfake_image(img_path, img_path_final, img_deepfake_all, not_chosen):
+
     img = Image.open(img_path)
     result = Image.open(img_deepfake_all)
     for face_box in not_chosen:
         face = img.crop(face_box)
         result.paste(face, face_box)
     result.save(img_path_final)
+
+
+def mask_image(img_path, img_path_final, faces):
+    img = cv2.imread(img_path)
+    for (x, y, w, h) in faces:
+        cv2.rectangle(img, (x, y), (w, h), color=(0, 0, 0), thickness=-1)
+    cv2.imwrite(img_path_final, img)
 
 
 def _random_bright_color():
@@ -66,17 +74,17 @@ def number_faces(img_path, img_path_final, faces):
         count += 1
         color = _random_bright_color()
         cv2.rectangle(img, (x, y), (w, h), color=color, thickness=3)
-        fontScale = min(w-x, h-y) / 30
-        shiftDown = (h-y) // 3
+        fontScale = min(w - x, h - y) / 30
+        shiftDown = (h - y) // 3
         cv2.putText(img, str(count),
-                    (x + ((w-x) // 9 * 3), y + shiftDown),
+                    (x + ((w - x) // 9 * 3), y + shiftDown),
                     fontFace=1,
                     fontScale=fontScale,
                     color=color,
                     thickness=4,
                     lineType=cv2.LINE_AA)
         cv2.putText(img, str(count),
-                    (x + ((w-x) // 9 * 3), y + shiftDown),
+                    (x + ((w - x) // 9 * 3), y + shiftDown),
                     fontFace=1,
                     fontScale=fontScale,
                     color=(0, 0, 0),

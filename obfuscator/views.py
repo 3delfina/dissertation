@@ -1,14 +1,10 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, DetailView
-from .obfuscate import blur_image, pixelate_image, deepfake_image, number_faces, deepfake_and_number, _resize_photo
+from .obfuscate import blur_image, pixelate_image, deepfake_image, deepfake_and_number, mask_image
 from .forms import ParticipantForm, FacesForm, PhotoForm, PhotoReuploadForm
 from .models import Participant, Photo
 from django.conf import settings
 
 import ast
-import cv2
 import os
 
 
@@ -41,6 +37,14 @@ def get_deepfake(photo, not_chosen):
     img_deepfake_all = photo.deepfake_all
     deepfake_image(original_path, obfuscation_path, img_deepfake_all, not_chosen)
     photo.participant_deepfake = obfuscation_filename
+    return photo
+
+
+def get_masked(photo, face_choices_int):
+    original_path, obfuscation_path, obfuscation_filename = _get_file_paths(photo.participant_photo.name,
+                                                                            "_participant_masked.")
+    mask_image(original_path, obfuscation_path, face_choices_int)
+    photo.participant_masked = obfuscation_filename
     return photo
 
 
@@ -115,6 +119,7 @@ def display(request):
         photo = get_blur(photo, chosen_faces)
         photo = get_pixelation(photo, chosen_faces)
         photo = get_deepfake(photo, not_chosen)
+        photo = get_masked(photo, chosen_faces)
         photo.save()
         context["display"] = 1
         return render(request, 'obfuscator/display.html', context)

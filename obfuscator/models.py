@@ -39,4 +39,5 @@ class Photo(models.Model):
     participant_blur = models.ImageField(blank=True, max_length=250)
     participant_pixel = models.ImageField(blank=True, max_length=250)
     participant_deepfake = models.ImageField(blank=True, max_length=250)
+    participant_masked = models.ImageField(blank=True, max_length=250)
     deepfake_all = models.ImageField(blank=True, max_length=250)
