@@ -1,6 +1,7 @@
 import torch
-from deep_privacy import config
-from deep_privacy.engine import Trainer, ProgressiveTrainer
+from DeepPrivacy.deep_privacy import config
+from DeepPrivacy.deep_privacy.engine import Trainer, ProgressiveTrainer
+
 # Debug
 parser = config.default_parser()
 parser.add_argument(

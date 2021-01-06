@@ -1,4 +1,5 @@
 import os
+
 # Default values
 _output_dir = "outputs"
 _cache_dir = ".deep_privacy_cache"
@@ -15,10 +16,10 @@ models = dict(
         8: model_size,
         16: model_size,
         32: model_size,
-        64: model_size//2,
-        128: model_size//4,
-        256: model_size//8,
-        512: model_size//16
+        64: model_size // 2,
+        128: model_size // 4,
+        256: model_size // 8,
+        512: model_size // 16
     },
     generator=dict(
         scalar_pose_input=False,
@@ -38,7 +39,7 @@ models = dict(
                 type="conv",
                 wsconv=True,
                 gain=1,
-                #Probabilistic
+                # Probabilistic
                 variance_pad=0.2,
 
             ),

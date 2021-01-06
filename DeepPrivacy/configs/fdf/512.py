@@ -1,4 +1,3 @@
-
 _base_config_ = "base.py"
 model_size = 512
 model_url = "http://folk.ntnu.no/haakohu/checkpoints/fdf128_model512.ckpt"
@@ -9,10 +8,10 @@ models = dict(
         8: model_size,
         16: model_size,
         32: model_size,
-        64: model_size//2,
-        128: model_size//4,
-        256: model_size//8,
-        512: model_size//16
+        64: model_size // 2,
+        128: model_size // 4,
+        256: model_size // 8,
+        512: model_size // 16
     },
     generator=dict(
         type="MSGGenerator"),

@@ -1,12 +1,14 @@
 import pathlib
+
 import numpy as np
 import torch
+
 from .build import DATASET_REGISTRY
 from .custom import CustomDataset
 
 
 def load_torch(filepath: pathlib.Path):
-    assert filepath.is_file(),\
+    assert filepath.is_file(), \
         f"Did not find file. Looked at: {filepath}"
     return torch.load(filepath)
 
@@ -35,7 +37,7 @@ class FDFDataset(CustomDataset):
         landmarks = np.load(filepath).reshape(-1, 7, 2)
         landmarks = landmarks.astype(np.float32)
         self.landmarks = landmarks[:len(self)]
-        assert len(self.landmarks) == len(self),\
+        assert len(self.landmarks) == len(self), \
             f"Number of images: {len(self)}, landmarks: {len(landmarks)}"
 
     def get_mask(self, idx):
@@ -66,7 +68,7 @@ class FDFDensePoseDataset(FDFDataset):
 
     def load_mask(self):
         filepath = self.dirpath.joinpath("mask", f"{self.imsize}.npy")
-        assert filepath.is_file(),\
+        assert filepath.is_file(), \
             f"Did not find mask at: {filepath}"
         masks = np.load(filepath)
         assert len(masks) == len(self)
@@ -108,7 +110,7 @@ class FDFRetinaNetPose(FDFDataset):
         landmarks = landmarks.astype(np.float32)
         landmarks = landmarks[np.array(list(self._keep_indices)), ::]
         self.landmarks = landmarks[:len(self)]
-        assert len(self.landmarks) == len(self),\
+        assert len(self.landmarks) == len(self), \
             f"Number of images: {len(self)}, landmarks: {len(landmarks)}"
 
     def load_bounding_box(self):

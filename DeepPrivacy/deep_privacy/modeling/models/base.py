@@ -1,11 +1,12 @@
 import torch
+from DeepPrivacy.deep_privacy import torch_utils
 from torch import nn
+
 from . import blocks, layers
-from deep_privacy import torch_utils
 
 
 def transition_features(x_old, x_new, transition_variable):
-    assert x_old.shape == x_new.shape,\
+    assert x_old.shape == x_new.shape, \
         "Old shape: {}, New: {}".format(x_old.shape, x_new.shape)
     return torch.lerp(x_old, x_new, transition_variable)
 
@@ -16,7 +17,7 @@ class Module(nn.Module):
         super().__init__()
 
     def extra_repr(self):
-        num_params = torch_utils.number_of_parameters(self) / 10**6
+        num_params = torch_utils.number_of_parameters(self) / 10 ** 6
 
         return f"Number of parameters: {num_params:.3f}M"
 

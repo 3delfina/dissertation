@@ -25,7 +25,7 @@ data_val = dict(
     dataset=dict(
         type=dataset_type,
         dirpath=os.path.join(data_root, "val"),
-        percentage=.137, #5000 images out of 36500
+        percentage=.137,  # 5000 images out of 36500
         is_train=False
     ),
     transforms=[

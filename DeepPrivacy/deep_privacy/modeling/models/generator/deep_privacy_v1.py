@@ -1,10 +1,11 @@
-import torch.nn as nn
 import torch
-from .. import layers, blocks
-from ..utils import generate_pose_channel_images
-from ..build import GENERATOR_REGISTRY
-from .progressive_generator import DecoderUpsample
+import torch.nn as nn
+
 from .gblocks import LatentVariableConcat
+from .progressive_generator import DecoderUpsample
+from .. import layers, blocks
+from ..build import GENERATOR_REGISTRY
+from ..utils import generate_pose_channel_images
 
 
 class ConvAct(nn.Module):
@@ -232,5 +233,5 @@ class DeepPrivacyV1(nn.Module):
             unet_features=unet_features)
         x, mask = self.forward_decoder(x, mask, batch)
         x, mask = self.to_rgb((x, mask))
-#        x = condition * orig_mask + (1 - orig_mask) * x
+        #        x = condition * orig_mask + (1 - orig_mask) * x
         return x

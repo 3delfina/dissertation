@@ -1,6 +1,8 @@
 import pathlib
 import typing
+
 import numpy as np
+
 from . import utils
 
 
