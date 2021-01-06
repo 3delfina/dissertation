@@ -1,6 +1,8 @@
 import pathlib
-import numpy as np
+
 import cv2
+import numpy as np
+
 try:
     from apex.amp._amp_state import _amp_state
 except ImportError:
@@ -15,7 +17,7 @@ def amp_state_has_overflow():
 
 
 def read_im(impath: pathlib.Path, imsize: int = None):
-    assert impath.is_file(),\
+    assert impath.is_file(), \
         f"Image path is not file: {impath}"
     im = cv2.imread(str(impath))[:, :, ::-1]
     if imsize is not None:

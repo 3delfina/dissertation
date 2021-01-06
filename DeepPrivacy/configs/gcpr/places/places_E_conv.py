@@ -1,4 +1,3 @@
-
 _base_config_ = "../../places2.py"
 models = dict(
     generator=dict(

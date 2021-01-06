@@ -1,17 +1,18 @@
-import torch
 import numpy as np
+import torch
 import torch.nn as nn
-from ..base import ProgressiveBase, FromRGB
+
 from .. import layers, blocks
-from ..utils import generate_pose_channel_images
+from ..base import ProgressiveBase, FromRGB
 from ..build import DISCRIMINATOR_REGISTRY
+from ..utils import generate_pose_channel_images
 
 
 def get_conv_size(cfg, size):
-    size = size * (2**0.5)
+    size = size * (2 ** 0.5)
     size = size * cfg.models.discriminator.conv_multiplier
     if cfg.models.generator.conv2d_config.conv.type == "gconv":
-        size *= (2**0.5)
+        size *= (2 ** 0.5)
     return int(np.ceil(size / 8) * 8)
 
 
@@ -35,8 +36,8 @@ class Discriminator(ProgressiveBase):
         self.current_imsize = self.min_fmap_resolution
         self._use_pose = self.cfg.models.pose_size > 0
         self._one_hot_pose = (
-            self._use_pose and
-            not self.cfg.models.discriminator.scalar_pose_input)
+                self._use_pose and
+                not self.cfg.models.discriminator.scalar_pose_input)
         self.layers = nn.Sequential()
         self.layers.add_module(
             "from_rgb", FromRGB(
@@ -64,7 +65,7 @@ class Discriminator(ProgressiveBase):
         num_outputs = 1
         res = self.min_fmap_resolution - 3
         self.output_layer = layers.Linear(
-            self.conv_channel_size() * res**2, num_outputs)
+            self.conv_channel_size() * res ** 2, num_outputs)
 
     def conv_channel_size(self):
         size = super().conv_channel_size()
@@ -148,7 +149,8 @@ class Discriminator(ProgressiveBase):
 
 
 if __name__ == "__main__":
-    from deep_privacy.config import Config, default_parser
+    from DeepPrivacy.deep_privacy.config import Config, default_parser
+
     args = default_parser().parse_args()
     cfg = Config.fromfile(args.config_path)
 

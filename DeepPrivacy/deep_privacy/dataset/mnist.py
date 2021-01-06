@@ -1,5 +1,6 @@
-import torchvision
 import numpy as np
+import torchvision
+
 from .build import DATASET_REGISTRY
 
 

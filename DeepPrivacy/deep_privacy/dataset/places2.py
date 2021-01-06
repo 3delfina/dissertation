@@ -1,9 +1,11 @@
 import os
-import numpy as np
 import pathlib
-from .mask_util import generate_mask
-from .custom import CustomDataset
+
+import numpy as np
+
 from .build import DATASET_REGISTRY
+from .custom import CustomDataset
+from .mask_util import generate_mask
 
 
 @DATASET_REGISTRY.register_module

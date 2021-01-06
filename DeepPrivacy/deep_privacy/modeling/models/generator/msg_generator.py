@@ -1,9 +1,10 @@
 import torch
 import torch.nn as nn
-from .. import layers, blocks
-from ..build import GENERATOR_REGISTRY
+
 from .base import RunningAverageGenerator
 from .gblocks import LatentVariableConcat, UnetSkipConnection
+from .. import layers, blocks
+from ..build import GENERATOR_REGISTRY
 
 
 @GENERATOR_REGISTRY.register_module
@@ -37,12 +38,12 @@ class MSGGenerator(RunningAverageGenerator):
         imsize = self.max_imsize
         self.from_rgb = blocks.build_convact(
             self.conv2d_config,
-            in_channels=self._image_channels + self.concat_input_mask*2,
+            in_channels=self._image_channels + self.concat_input_mask * 2,
             out_channels=self.res2channels[imsize],
             kernel_size=1)
         while imsize >= self._min_fmap_resolution:
             current_size = self.res2channels[imsize]
-            next_size = self.res2channels[max(imsize//2, self._min_fmap_resolution)]
+            next_size = self.res2channels[max(imsize // 2, self._min_fmap_resolution)]
             block = blocks.BasicBlock(
                 self.conv2d_config, imsize, current_size,
                 [current_size, next_size], self._residual)
@@ -64,7 +65,7 @@ class MSGGenerator(RunningAverageGenerator):
         imsize = self._min_fmap_resolution
         self.rgb_convolutions = nn.ModuleDict()
         while imsize <= self.max_imsize:
-            current_size = self.res2channels[max(imsize//2, self._min_fmap_resolution)]
+            current_size = self.res2channels[max(imsize // 2, self._min_fmap_resolution)]
             start_size = current_size
             if imsize == self._min_fmap_resolution:
                 start_size += self.z_shape[0]
@@ -73,7 +74,7 @@ class MSGGenerator(RunningAverageGenerator):
             else:
                 self.decoder.add_module(f"upsample{imsize}", layers.NearestUpsample())
                 skip = UnetSkipConnection(
-                    self.conv2d_config, current_size*2, current_size, imsize,
+                    self.conv2d_config, current_size * 2, current_size, imsize,
                     **self._unet_cfg)
                 self.decoder.add_module(f"skip_connection{imsize}", skip)
             next_size = self.res2channels[imsize]
@@ -109,7 +110,7 @@ class MSGGenerator(RunningAverageGenerator):
                 mask_out = layers.up(mask_out)
                 conv = self.rgb_convolutions[str(imsize)]
                 rgb_, mask_ = conv((x, mask))
-                assert rgb_.shape == rgb.shape,\
+                assert rgb_.shape == rgb.shape, \
                     f"rgb_ {rgb_.shape}, rgb: {rgb.shape}"
                 rgb = rgb + rgb_
         return rgb / self.norm_constant, mask_out
@@ -189,10 +190,11 @@ class MSGGenerator(RunningAverageGenerator):
 
             new_sd[key] = value
         return super().load_state_dict(new_sd, strict=strict)
-        
+
 
 if __name__ == "__main__":
-    from deep_privacy.config import Config, default_parser
+    from DeepPrivacy.deep_privacy.config import Config, default_parser
+
     args = default_parser().parse_args()
     cfg = Config.fromfile(args.config_path)
 

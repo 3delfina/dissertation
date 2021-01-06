@@ -1,4 +1,4 @@
-from deep_privacy.utils import Registry, build_from_cfg
+from DeepPrivacy.deep_privacy.utils import Registry, build_from_cfg
 
 HOOK_REGISTRY = Registry("HOOKS")
 

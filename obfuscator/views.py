@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
-from .obfuscate import blur_image, pixelate_image, deepfake_image, number_faces
+from .obfuscate import blur_image, pixelate_image, deepfake_image, number_faces, deepfake_and_number, _resize_photo
 from .forms import ParticipantForm, FacesForm, PhotoForm, PhotoReuploadForm
 from .models import Participant, Photo
 from django.conf import settings
@@ -30,29 +30,42 @@ def get_blur(photo, faces):
 def get_pixelation(photo, face_choices_int):
     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(photo.participant_photo.name,
                                                                             "_participant_pixel.")
-    print(original_path)
-    print(obfuscation_path)
     pixelate_image(original_path, obfuscation_path, face_choices_int)
     photo.participant_pixel = obfuscation_filename
     return photo
 
 
-def get_deepfake(photo, face_choices_int, not_chosen):
+def get_deepfake(photo, not_chosen):
     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(photo.participant_photo.name,
                                                                             "_participant_deepfake.")
-    deepfake_image(original_path, obfuscation_path, face_choices_int, not_chosen)
+    img_deepfake_all = photo.deepfake_all
+    deepfake_image(original_path, obfuscation_path, img_deepfake_all, not_chosen)
     photo.participant_deepfake = obfuscation_filename
     return photo
 
 
-def locate_faces(photo):
-    original_path, obfuscation_path, obfuscation_filename = _get_file_paths(photo.participant_photo.name,
+def get_deepfake_all(photo):
+
+    original_path, obfuscation_path, deepfake_filename = _get_file_paths(photo.participant_photo.name,
+                                                                            "_participant_deepfake_all.")
+    _, faces_path, faces_filename = _get_file_paths(photo.participant_photo.name,
                                                                             "_participant_faces.")
-    faces_str, count = number_faces(original_path, obfuscation_path)
+    faces_str, count = deepfake_and_number(original_path, obfuscation_path, faces_path)
+    photo.deepfake_all = deepfake_filename
     photo.face_count = count
     photo.faces_location_arr = faces_str
-    photo.participant_faces = obfuscation_filename
+    photo.participant_faces = faces_filename
     return photo
+
+
+# def locate_faces(photo):
+#     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(photo.participant_photo.name,
+#                                                                             "_participant_faces.")
+#     faces_str, count = number_faces(original_path, obfuscation_path)
+#     photo.face_count = count
+#     photo.faces_location_arr = faces_str
+#     photo.participant_faces = obfuscation_filename
+#     return photo
 
 
 def index(request):
@@ -63,10 +76,10 @@ def index(request):
         if participant_form.is_valid() and photo_form.is_valid():
             participant = participant_form.save()
             participant.save()
-            photo = photo_form.save(commit = False)
+            photo = photo_form.save(commit=False)
             photo.participant = participant
             photo.save()
-            photo = locate_faces(photo)
+            photo = get_deepfake_all(photo)
             photo.save()
             participant.last_photo_id = photo.id
             participant.save()
@@ -77,13 +90,12 @@ def index(request):
         participant_form = ParticipantForm()
         photo_form = PhotoForm()
     return render(request, "obfuscator/index.html", {
-                                        'participant_form': participant_form,
-                                        'photo_form': photo_form})
+        'participant_form': participant_form,
+        'photo_form': photo_form})
 
 
 def display(request):
     participant_id = access_session(request)
-    print(participant_id)
     participant = Participant.objects.get(participant_id=participant_id)
     photo = Photo.objects.get(id=participant.last_photo_id)
 
@@ -95,24 +107,23 @@ def display(request):
         face_choices = form.cleaned_data['face_choices']
         all_faces = ast.literal_eval(photo.faces_location_arr)
         chosen_faces = [all_faces[int(i) - 1] for i in face_choices]
-        print((all_faces))
-        print((chosen_faces))
+        print(chosen_faces)
         not_chosen = []
-        for i in range(1, len(all_faces)+1):
+        for i in range(1, len(all_faces) + 1):
             if str(i) not in set(face_choices):
-                not_chosen.append(all_faces[i-1])
+                not_chosen.append(all_faces[i - 1])
         photo = get_blur(photo, chosen_faces)
         photo = get_pixelation(photo, chosen_faces)
-        photo = get_deepfake(photo, chosen_faces, not_chosen)
+        photo = get_deepfake(photo, not_chosen)
         photo.save()
         context["display"] = 1
         return render(request, 'obfuscator/display.html', context)
 
     elif photo_form.is_valid():
-        photo = photo_form.save(commit = False)
+        photo = photo_form.save(commit=False)
         photo.participant = participant
         photo.save()
-        photo = locate_faces(photo)
+        photo = get_deepfake_all(photo)
         photo.save()
         participant.last_photo_id = photo.id
         participant.save()
@@ -122,13 +133,14 @@ def display(request):
     return render(request, 'obfuscator/display.html', context)
 
 
-def create_session(request, id):
+def create_session(request, session_id):
     delete_session(request)
-    request.session['id'] = id
+    request.session['id'] = session_id
 
 
 def access_session(request):
     return request.session.get('id')
+
 
 def delete_session(request):
     try:
