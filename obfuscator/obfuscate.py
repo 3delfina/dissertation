@@ -1,43 +1,41 @@
-from django.conf import settings
-
 import colorsys
+import cv2
 import imutils
-import os
 from matplotlib import image
 import random
-from PIL import Image, ImageFilter, ImageDraw, ImageFont
+from PIL import Image, ImageFilter  # ImageDraw, ImageFont
 from DeepPrivacy.deep_privacy.cli import anonymize_and_get_faces
 
 
 def blur_image(img_path, img_path_final, faces):
-    image = Image.open(img_path)
+    img = Image.open(img_path)
     for (x, y, w, h) in faces:
         box = (x, y, w, h)
-        ic = image.crop(box)
+        ic = img.crop(box)
         ic = ic.filter(ImageFilter.GaussianBlur(radius=4))
-        image.paste(ic, box)
-    image.save(img_path_final)
+        img.paste(ic, box)
+    img.save(img_path_final)
     # image.show()
 
 
 def pixelate_image(img_path, img_path_final, faces):
     # Replicate Pixelate - Mosaic in Photoshop, cell size 15 square.
-    image = Image.open(img_path)
+    img = Image.open(img_path)
     for (x, y, w, h) in faces:
         box = (x, y, w, h)
-        face = image.crop(box)
+        face = img.crop(box)
         imgSmall = face.resize((15, 15), resample=Image.BILINEAR)
         # Scale back up using NEAREST to original size
         result = imgSmall.resize(face.size, Image.NEAREST)
-        image.paste(result, box)
-    image.save(img_path_final)
+        img.paste(result, box)
+    img.save(img_path_final)
 
 
 def deepfake_image(img_path, img_path_final, img_deepfake_all, not_chosen):
-    image = Image.open(img_path)
+    img = Image.open(img_path)
     result = Image.open(img_deepfake_all)
     for face_box in not_chosen:
-        face = image.crop(face_box)
+        face = img.crop(face_box)
         result.paste(face, face_box)
     result.save(img_path_final)
 
@@ -62,27 +60,30 @@ def _resize_photo(img_path):
 
 
 def number_faces(img_path, img_path_final, faces):
-    img = Image.open(img_path)
-    draw = ImageDraw.Draw(img)
+    img = cv2.imread(img_path)
     count = 0
     for (x, y, w, h) in faces:
         count += 1
         color = _random_bright_color()
-        draw.rectangle(xy=[(x, y), (w, h)], outline=color, width=5)
-        # font_size = int(min(w-x, h-y) / 30)  # TODO: make it relative
-        font_path = os.path.join(settings.BASE_DIR, 'obfuscator', 'arial.ttf')
-        font = ImageFont.truetype(font_path, size=30)
-        draw.text(xy=(x + ((w-x) // 9 * 4), y), text=str(count), fill=color, font=font)
-        # cv2.putText(img, str(count),
-        #             (x + ((w-x) // 9 * 3), y - 5),
-        #             fontFace=1,
-        #             fontScale=fontScale,
-        #             color=color,
-        #             thickness=4,
-        #             lineType=cv2.LINE_AA)
+        cv2.rectangle(img, (x, y), (w, h), color=color, thickness=3)
+        fontScale = min(w-x, h-y) / 30
+        shiftDown = (h-y) // 3
+        cv2.putText(img, str(count),
+                    (x + ((w-x) // 9 * 3), y + shiftDown),
+                    fontFace=1,
+                    fontScale=fontScale,
+                    color=color,
+                    thickness=4,
+                    lineType=cv2.LINE_AA)
+        cv2.putText(img, str(count),
+                    (x + ((w-x) // 9 * 3), y + shiftDown),
+                    fontFace=1,
+                    fontScale=fontScale,
+                    color=(0, 0, 0),
+                    thickness=1,
+                    lineType=cv2.LINE_AA)
 
-    # cv2.imwrite(img_path_final, img)
-    img.save(img_path_final)
+    cv2.imwrite(img_path_final, img)
     faces_str = str(faces.tolist()) if len(faces) > 0 else "[]"
     return faces_str, count
     # to recover list of lists from the str:
