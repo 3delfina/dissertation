@@ -38,14 +38,14 @@
                   <table>
                     {{ form.as_table }}
                   </table>
-                  <button type="submit" onclick="showLoadingMsg()">Obfuscate selected</button>
+                  <button type="submit" >Obfuscate selected</button>
               </form>
               <form method = "post" enctype="multipart/form-data">
                   {% csrf_token %}
                   <table>
                     {{ photo_form.as_table }}
                   </table>
-                  <button type="submit">Upload</button>
+                  <button type="submit" onclick="showLoadingMsg()">Upload</button>
               </form>
           </div>
 
@@ -61,20 +61,24 @@
               <div class="column">DeepFake
                 <img src="{{ photo.participant_deepfake.url}}">
               </div>
+
+              <div class="column">Masking
+                <img src="{{ photo.participant_masked.url}}">
+              </div>
           {% endif %}
       </div>
     </div>
 
-
     <script type="text/javascript" charset="utf-8">
       function showLoadingMsg() {
-        if ($("input[type=checkbox]:checked").length > 0){
+        var show=document.getElementById("id_participant_photo").files.length;
+        console.log(show);
+        if (show === 1 ){
           $.loadingBlockShow({
               imgPath: '../../static/obfuscator/icon.gif'
           });
         }
-          // setTimeout($.loadingBlockHide, 5000);
-      };
+       };
     </script>
   </body>
 </html>
