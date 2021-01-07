@@ -1,8 +1,11 @@
+from django.conf import settings
+
 import colorsys
 import cv2
 import imutils
 from matplotlib import image
 import random
+import os
 from PIL import Image, ImageFilter  # ImageDraw, ImageFont
 from DeepPrivacy.deep_privacy.cli import anonymize_and_get_faces
 
@@ -32,7 +35,6 @@ def pixelate_image(img_path, img_path_final, faces):
 
 
 def deepfake_image(img_path, img_path_final, img_deepfake_all, not_chosen):
-
     img = Image.open(img_path)
     result = Image.open(img_deepfake_all)
     for face_box in not_chosen:
@@ -46,6 +48,17 @@ def mask_image(img_path, img_path_final, faces):
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (w, h), color=(0, 0, 0), thickness=-1)
     cv2.imwrite(img_path_final, img)
+
+
+def avatar_image(img_path, img_path_final, faces):
+    img = Image.open(img_path)
+    emoji_path = os.path.join(settings.BASE_DIR, 'obfuscator', 'static', 'obfuscator', 'emoji.png')
+    emoji = Image.open(emoji_path)
+
+    for (x, y, w, h) in faces:
+        emoji_resized = emoji.resize((w-x, h-y))
+        img.paste(emoji_resized, (x, y, w, h), emoji_resized)
+    img.save(img_path_final)
 
 
 def _random_bright_color():
