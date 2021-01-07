@@ -28,3 +28,19 @@
 .topnav-right {
   float: right;
 }
+
+
+@media screen and (max-width: 600px) {
+  .topnav .search, .topnav-right {
+    float: none;
+    display: block;
+    padding: 0px 16px;
+  }
+
+  .topnav-centered .search {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
