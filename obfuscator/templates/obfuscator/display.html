@@ -20,18 +20,18 @@
 
       <!-- Right-aligned links -->
       <div class="topnav-right">
-        <div class="search"><i>Participant ID:   </i><u>{{ participant.participant_id}}</u></div>
+        <div class="search"><i>Your ID:   </i><u>{{ participant.participant_id}}</u></div>
       </div>
     </div>
 
     <div class="main-area">
-      <div class="grid">
-          <div class="column">Original photo
+      <div class="group">
+          <div class="column span_1">Original photo
             <img src="{{ photo.participant_photo.url}}">
             <div class="small-text"><i>Filename: </i><u>{{ photo.participant_photo.name}}</u></div>
           </div>
 
-          <div class="column">Faces located
+          <div class="column span_2">Faces located
               <img src="{{ photo.participant_faces.url}}">
               <form method="POST">
                   {% csrf_token %}
@@ -48,26 +48,31 @@
                   <button type="submit" onclick="showLoadingMsg()">Upload</button>
               </form>
           </div>
-
+      </div>
           {% if display %}
-              <div class="column">Blurring
+      <div class="group">
+              <div class="column span_1">Blurring
                 <img src="{{ photo.participant_blur.url}}">
               </div>
 
-              <div class="column">Pixelation
+              <div class="column span_2">Pixelation
                 <img src="{{ photo.participant_pixel.url}}">
               </div>
-
-              <div class="column">DeepFake
+      </div>
+      <div class="group">
+              <div class="column span_1">DeepFake
                 <img src="{{ photo.participant_deepfake.url}}">
               </div>
 
-              <div class="column">Masking
+              <div class="column span_2">Masking
                 <img src="{{ photo.participant_masked.url}}">
               </div>
-
-              <div class="column">Avatar (emoji)
+      </div>
+      <div class="group">
+              <div class="column span_1">Avatar (emoji)
                 <img src="{{ photo.participant_avatar.url}}">
+              </div>
+              <div class="column span_2">
               </div>
           {% endif %}
       </div>
