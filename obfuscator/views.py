@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .obfuscate import blur_image, pixelate_image, deepfake_image, deepfake_and_number, mask_image
+from .obfuscate import blur_image, pixelate_image, deepfake_image, deepfake_and_number, mask_image, avatar_image
 from .forms import ParticipantForm, FacesForm, PhotoForm, PhotoReuploadForm
 from .models import Participant, Photo
 from django.conf import settings
@@ -45,6 +45,14 @@ def get_masked(photo, face_choices_int):
                                                                             "_participant_masked.")
     mask_image(original_path, obfuscation_path, face_choices_int)
     photo.participant_masked = obfuscation_filename
+    return photo
+
+
+def get_avatar(photo, face_choices_int):
+    original_path, obfuscation_path, obfuscation_filename = _get_file_paths(photo.participant_photo.name,
+                                                                            "_participant_avatar.")
+    avatar_image(original_path, obfuscation_path, face_choices_int)
+    photo.participant_avatar = obfuscation_filename
     return photo
 
 
@@ -120,6 +128,7 @@ def display(request):
         photo = get_pixelation(photo, chosen_faces)
         photo = get_deepfake(photo, not_chosen)
         photo = get_masked(photo, chosen_faces)
+        photo = get_avatar(photo, chosen_faces)
         photo.save()
         context["display"] = 1
         return render(request, 'obfuscator/display.html', context)
