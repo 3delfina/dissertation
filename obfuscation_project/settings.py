@@ -38,7 +38,7 @@ SECRET_KEY = 'ip7&_o!_@wf7))2%j&8q7zh6j*mwo!25!_s(ku(kl-x3#9*uc8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'mkhamis.pythonanywhere.com']
 
 # Application definition
 
