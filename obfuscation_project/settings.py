@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'obfuscation_project.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': dj_database_url.config(default='sqlite3://...')
 }
 
 # Password validation
