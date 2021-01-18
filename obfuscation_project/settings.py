@@ -96,8 +96,10 @@ WSGI_APPLICATION = 'obfuscation_project.wsgi.application'
 #     }
 # }
 
+DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+
 DATABASES = {
-    'default': dj_database_url.config(default='sqlite3://...')
+    'default': dj_database_url.config(default=DATABASE_URL)
 }
 
 # Password validation
