@@ -65,7 +65,7 @@ def build_anonymizer(
         cfg = Config.fromfile(config_path)
     logger.info("Loaded model:" + cfg.model_name)
     generator = load_model_from_checkpoint(cfg)
-    logger.info(f"Generator initialized with {torch_utils.number_of_parameters(generator) / 1e6:.2f}M parameters")
+    # logger.info(f"Generator initialized with {torch_utils.number_of_parameters(generator) / 1e6:.2f}M parameters")
     cfg.anonymizer.truncation_level = truncation_level
     cfg.anonymizer.batch_size = batch_size
     cfg.anonymizer.fp16_inference = fp16_inference

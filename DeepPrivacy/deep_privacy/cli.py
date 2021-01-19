@@ -2,8 +2,6 @@ import argparse
 import os
 import pathlib
 import typing
-import logging
-logger = logging.getLogger(__name__)
 
 from DeepPrivacy.deep_privacy import logger
 from DeepPrivacy.deep_privacy.build import build_anonymizer, available_models
@@ -142,7 +140,7 @@ def main():
     face_boxes = []
     if len(image_paths) > 0:
         face_boxes = anonymizer.anonymize_image_paths(image_paths, image_target_paths)
-    print(face_boxes)
+    # print(face_boxes)
     # return face_boxes
 
 
@@ -153,14 +151,11 @@ def anonymize_and_get_faces(source_path, target_path):
     model = 'fdf128_rcnn512'
     # parser = get_parser()
     # args = parser.parse_args()
-    try:
-        anonymizer, cfg = build_anonymizer(
-            model, opts=None, config_path=None,
-            return_cfg=True)
-        output_dir = cfg.output_dir
-        source_paths = get_source_files(source_path)
-    except Exception as e:
-        logging.error(e, exc_info=True)
+    anonymizer, cfg = build_anonymizer(
+        model, opts=None, config_path=None,
+        return_cfg=True)
+    output_dir = cfg.output_dir
+    source_paths = get_source_files(source_path)
 
     image_paths = [source_path for source_path in source_paths
                    if source_path.suffix in image_suffix]
