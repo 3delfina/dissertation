@@ -29,8 +29,6 @@ class Anonymizer:
             images: typing.List[np.ndarray],
             im_bboxes: typing.List[np.ndarray] = None,
     ) -> typing.List[ImageAnnotation]:
-        print("image boxes")
-        print(im_bboxes)
         image_annotations, face_boxes = self.detector.get_detections(
             images, im_bboxes=im_bboxes,
         )
@@ -78,7 +76,7 @@ class Anonymizer:
                 annotation.keypoints
             )
             cv2.imwrite(str(new_path), anon_im[:, :, ::-1])
-            print("Saving to:", new_path)
+            # print("Saving to:", new_path)
             return face_boxes
 
             # to_save = np.concatenate((annotated_im, anon_im), axis=1)

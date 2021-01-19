@@ -306,7 +306,7 @@ class RCNNDetector(BaseDetector):
                 boxes = self.face_detector.batched_detect(im[None])
                 boxes = boxes[0][:, :4]
                 im_bboxes.append(boxes.astype(int))
-        print(im_bboxes)
+        # print(im_bboxes)
         return im_bboxes
 
     def get_detections(self, images, im_bboxes=None):

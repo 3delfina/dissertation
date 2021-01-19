@@ -6,8 +6,8 @@ from DeepPrivacy.deep_privacy import logger
 
 def _get_map_location():
     if not torch.cuda.is_available():
-        logger.warn(
-            "Cuda is not available. Forcing map checkpoint to be loaded into CPU.")
+        # logger.warn(
+        #     "Cuda is not available. Forcing map checkpoint to be loaded into CPU.")
         return "cpu"
     return None
 
