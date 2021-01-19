@@ -119,7 +119,7 @@ def display(request):
         face_choices = form.cleaned_data['face_choices']
         all_faces = ast.literal_eval(photo.faces_location_arr)
         chosen_faces = [all_faces[int(i) - 1] for i in face_choices]
-        # print(chosen_faces)
+        
         not_chosen = []
         for i in range(1, len(all_faces) + 1):
             if str(i) not in set(face_choices):
