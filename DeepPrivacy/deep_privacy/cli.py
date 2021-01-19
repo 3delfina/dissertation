@@ -159,7 +159,7 @@ def anonymize_and_get_faces(source_path, target_path):
             return_cfg=True)
         output_dir = cfg.output_dir
         source_paths = get_source_files(source_path)
-    except Exception, err as e:
+    except Exception as e:
         logging.error(e, exc_info=True)
 
     image_paths = [source_path for source_path in source_paths
