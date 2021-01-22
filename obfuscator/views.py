@@ -4,8 +4,12 @@ from .forms import ParticipantForm, FacesForm, PhotoForm, PhotoReuploadForm
 from .models import Participant, Photo
 from django.conf import settings
 
+
 import ast
 import os
+import logging
+
+logger = logging.getLogger()
 
 
 def _get_file_paths(filename_original, filename_addition):
@@ -108,6 +112,7 @@ def index(request):
 
 def display(request):
     participant_id = access_session(request)
+    logger.info("participant_id is:" + participant_id)
     participant = Participant.objects.get(participant_id=participant_id)
     photo = Photo.objects.get(id=participant.last_photo_id)
 
