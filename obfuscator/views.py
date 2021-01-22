@@ -62,9 +62,7 @@ def get_deepfake_all(photo):
                                                                             "_participant_deepfake_all.")
     _, faces_path, faces_filename = _get_file_paths(photo.participant_photo.name,
                                                                             "_participant_faces.")
-    # faces_str, count = deepfake_and_number(original_path, obfuscation_path, faces_path)
-    faces_str = "[[1,2,3,4]]"
-    count  = 1
+    faces_str, count = deepfake_and_number(original_path, obfuscation_path, faces_path)
     photo.deepfake_all = deepfake_filename
     photo.face_count = count
     photo.faces_location_arr = faces_str

@@ -4,5 +4,5 @@ DETECTOR_REGISTRY = Registry("DETECTOR_REGISTRY")
 
 
 def build_detector(cfg, *args, **kwargs):
-    print(cfg)
+    # print(cfg)
     return build_from_cfg(cfg, DETECTOR_REGISTRY, *args, **kwargs)
