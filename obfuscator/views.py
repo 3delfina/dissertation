@@ -9,7 +9,7 @@ import ast
 import os
 import logging
 
-logger = logging.getLogger()
+# logger = logging.getLogger()
 
 
 def _get_file_paths(filename_original, filename_addition):
@@ -112,7 +112,7 @@ def index(request):
 
 def display(request):
     id = access_session(request)
-    logger.info("participant_id is:" + str(id))
+    # logger.info("participant_id is:" + str(id))
     participant = get_object_or_404(Participant, pk=id)
     # participant = Participant.objects.get(participant_id=participant_id)
     photo = Photo.objects.get(id=participant.last_photo_id)
