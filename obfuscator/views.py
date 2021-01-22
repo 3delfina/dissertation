@@ -3,7 +3,7 @@ from .obfuscate import blur_image, pixelate_image, deepfake_image, deepfake_and_
 from .forms import ParticipantForm, FacesForm, PhotoForm, PhotoReuploadForm
 from .models import Participant, Photo
 from django.conf import settings
-
+from django.shortcuts import get_object_or_404
 
 import ast
 import os
@@ -100,7 +100,7 @@ def index(request):
             participant.last_photo_id = photo.id
             participant.save()
             # return render(request, 'obfuscator/display.html', {'participant': participant})
-            create_session(request, participant.participant_id)
+            create_session(request, participant.id)
             return redirect('display')
     else:
         participant_form = ParticipantForm()
@@ -111,9 +111,10 @@ def index(request):
 
 
 def display(request):
-    participant_id = access_session(request)
-    logger.info("participant_id is:" + participant_id)
-    participant = Participant.objects.get(participant_id=participant_id)
+    id = access_session(request)
+    logger.info("participant_id is:" + str(id))
+    participant = get_object_or_404(Participant, pk=id)
+    # participant = Participant.objects.get(participant_id=participant_id)
     photo = Photo.objects.get(id=participant.last_photo_id)
 
     form = FacesForm(photo.face_count, request.POST)
