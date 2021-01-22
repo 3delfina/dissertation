@@ -32,15 +32,15 @@
             <div class="small-text"><i>Filename: </i><u>{{ photo.participant_photo.name}}</u></div>
           </div>
 
-          <div class="column span_2">Faces located
-              <img src="{{ photo.participant_faces.url}}">
-              <form method="POST">
+          <!-- <div class="column span_2">Faces located -->
+          <!-- <img src="{{ photo.participant_faces.url}}"> -->
+          <!--    <form method="POST">
                   {% csrf_token %}
                   <table>
                     {{ form.as_table }}
                   </table>
                   <button type="submit" >Obfuscate selected</button>
-              </form>
+              </form> -->
               <form method = "post" enctype="multipart/form-data">
                   {% csrf_token %}
                   <table>

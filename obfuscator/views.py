@@ -62,7 +62,9 @@ def get_deepfake_all(photo):
                                                                             "_participant_deepfake_all.")
     _, faces_path, faces_filename = _get_file_paths(photo.participant_photo.name,
                                                                             "_participant_faces.")
-    faces_str, count = deepfake_and_number(original_path, obfuscation_path, faces_path)
+    # faces_str, count = deepfake_and_number(original_path, obfuscation_path, faces_path)
+    faces_str = "[[1,2,3,4]]"
+    count  = 1
     photo.deepfake_all = deepfake_filename
     photo.face_count = count
     photo.faces_location_arr = faces_str
@@ -119,7 +121,7 @@ def display(request):
         face_choices = form.cleaned_data['face_choices']
         all_faces = ast.literal_eval(photo.faces_location_arr)
         chosen_faces = [all_faces[int(i) - 1] for i in face_choices]
-        
+
         not_chosen = []
         for i in range(1, len(all_faces) + 1):
             if str(i) not in set(face_choices):
