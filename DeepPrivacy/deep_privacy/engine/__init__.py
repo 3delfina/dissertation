@@ -1,2 +1,2 @@
-from .progressive_trainer import ProgressiveTrainer
 from .trainer import Trainer
+from .progressive_trainer import ProgressiveTrainer

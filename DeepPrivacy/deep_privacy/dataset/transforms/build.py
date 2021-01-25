@@ -1,5 +1,5 @@
 import torchvision
-from DeepPrivacy.deep_privacy.utils import Registry, build_from_cfg
+from deep_privacy.utils import Registry, build_from_cfg
 
 TRANSFORM_REGISTRY = Registry("TRANSFORM")
 

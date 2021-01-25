@@ -1,9 +1,7 @@
-import torch
-from DeepPrivacy.deep_privacy.utils import Registry, build_from_cfg
-
-from .transforms import build_transforms
+from deep_privacy.utils import Registry, build_from_cfg
 from .utils import fast_collate, DataPrefetcher, progressive_decorator
-
+from .transforms import build_transforms
+import torch
 DATASET_REGISTRY = Registry("DATASET")
 
 
@@ -67,12 +65,11 @@ def build_dataloader_val(
 
 if __name__ == "__main__":
     import argparse
-    from DeepPrivacy.deep_privacy.config import Config
+    from deep_privacy.config import Config
     from . import *
-    from DeepPrivacy.deep_privacy import torch_utils
-    from DeepPrivacy.deep_privacy.visualization.utils import draw_faces_with_keypoints, np_make_image_grid
+    from deep_privacy import torch_utils
+    from deep_privacy.visualization.utils import draw_faces_with_keypoints, np_make_image_grid
     from PIL import Image
-
     parser = argparse.ArgumentParser()
     parser.add_argument("config_path")
     args = parser.parse_args()

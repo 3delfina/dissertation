@@ -1,6 +1,5 @@
 import queue
 import threading
-
 import cv2
 
 
@@ -24,7 +23,7 @@ class BufferlessVideoCapture:
                 break
             if not self.q.empty():
                 try:
-                    self.q.get_nowait()  # discard previous (unprocessed) frame
+                    self.q.get_nowait()   # discard previous (unprocessed) frame
                 except queue.Empty:
                     pass
             self.q.put((ret, frame))

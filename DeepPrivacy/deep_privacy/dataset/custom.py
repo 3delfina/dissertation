@@ -1,7 +1,5 @@
 import pathlib
-
-from DeepPrivacy.deep_privacy import logger
-
+from deep_privacy import logger
 from .utils import read_image
 
 
@@ -17,7 +15,7 @@ class CustomDataset:
         self.transform = transform
         self._percentage = percentage
         self.imsize = imsize
-        assert self.dirpath.is_dir(), \
+        assert self.dirpath.is_dir(),\
             f"Did not find dataset at: {dirpath}"
         self.image_paths = self._load_impaths()
         self.filter_images()
@@ -28,7 +26,7 @@ class CustomDataset:
     def _load_impaths(self):
         image_dir = self.dirpath.joinpath("images", str(self.imsize))
         image_paths = list(image_dir.glob("*.png"))
-        assert len(image_paths) > 0, \
+        assert len(image_paths) > 0,\
             f"Did not find images in: {image_dir}"
         image_paths.sort(key=lambda x: int(x.stem))
         return image_paths

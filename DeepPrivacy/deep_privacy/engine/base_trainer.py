@@ -1,12 +1,11 @@
-import collections
-import weakref
-
-import numpy as np
 import torch
-from DeepPrivacy.deep_privacy import logger
-
-from . import hooks
+import numpy as np
+import weakref
+import collections
 from .checkpointer import Checkpointer
+from . import hooks
+from deep_privacy import logger
+
 
 torch.manual_seed(0)
 np.random.seed(0)

@@ -1,13 +1,12 @@
-import pathlib
-
 import torch
-from DeepPrivacy.deep_privacy import logger
+from deep_privacy import logger
+import pathlib
 
 
 def _get_map_location():
     if not torch.cuda.is_available():
-        # logger.warn(
-        #     "Cuda is not available. Forcing map checkpoint to be loaded into CPU.")
+        logger.warn(
+            "Cuda is not available. Forcing map checkpoint to be loaded into CPU.")
         return "cpu"
     return None
 
@@ -37,7 +36,7 @@ def _get_checkpoint_path(
         output_dir: str, validation_checkpoint_step: int = None):
     if validation_checkpoint_step is None:
         return pathlib.Path(output_dir, "checkpoints")
-    step = validation_checkpoint_step * 10 ** 6
+    step = validation_checkpoint_step * 10**6
     path = pathlib.Path(
         output_dir, "validation_checkpoints", f"step_{step}.ckpt")
     return path

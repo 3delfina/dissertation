@@ -1,11 +1,10 @@
-from typing import Dict, Tuple
-
 import torch
-
 from .build import CRITERION_REGISTRY
+from typing import Dict, Tuple
 
 
 class GanCriterion:
+
     NEED_REAL_SCORE_GENERATOR = False
     REQUIRES_D_SCORE = True
 
@@ -52,6 +51,7 @@ class WGANCriterion(GanCriterion):
 
 @CRITERION_REGISTRY.register_module
 class RGANCriterion(GanCriterion):
+
     NEED_REAL_SCORE_GENERATOR = True
 
     def __init__(self):
@@ -83,6 +83,7 @@ class RGANCriterion(GanCriterion):
 
 @CRITERION_REGISTRY.register_module
 class RaGANCriterion(GanCriterion):
+
     NEED_REAL_SCORE_GENERATOR = True
 
     def __init__(self):
@@ -96,7 +97,7 @@ class RaGANCriterion(GanCriterion):
         target = torch.ones_like(real_scores)
         target2 = torch.zeros_like(real_scores)
         d_loss = self.bce_stable(real_scores - fake_scores.mean(), target) + \
-                 self.bce_stable(fake_scores - real_scores.mean(), target2)
+            self.bce_stable(fake_scores - real_scores.mean(), target2)
         to_log = {
             "wasserstein_distance": wasserstein_distance.mean().detach(),
             "d_loss": d_loss.mean().detach()
@@ -109,7 +110,7 @@ class RaGANCriterion(GanCriterion):
         target = torch.ones_like(real_scores)
         target2 = torch.zeros_like(real_scores)
         g_loss = self.bce_stable(real_scores - fake_scores.mean(), target2) + \
-                 self.bce_stable(fake_scores - real_scores.mean(), target)
+            self.bce_stable(fake_scores - real_scores.mean(), target)
         to_log = dict(
             g_loss=g_loss.mean()
         )
@@ -124,7 +125,7 @@ class NonSaturatingCriterion(GanCriterion):
         fake_scores = batch["fake_scores"][self.fake_index][:, 0]
         wasserstein_distance = (real_scores - fake_scores).squeeze()
         loss = torch.nn.functional.softplus(-real_scores) \
-               + torch.nn.functional.softplus(fake_scores)
+            + torch.nn.functional.softplus(fake_scores)
         return loss.view(-1), dict(
             wasserstein_distance=wasserstein_distance.mean().detach(),
             d_loss=loss.mean()

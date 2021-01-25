@@ -1,3 +1,4 @@
+
 _base_config_ = "base.py"
 
 model_size = 512
@@ -12,16 +13,16 @@ models = dict(
         8: model_size,
         16: model_size,
         32: model_size,
-        64: model_size // 2,
-        128: model_size // 4,
-        256: model_size // 8,
-        512: model_size // 16
+        64: model_size//2,
+        128: model_size//4,
+        256: model_size//8,
+        512: model_size//16
     },
 
     generator=dict(
         conv2d_config=dict(
             conv=dict(
-                gain=2 ** 0.5
+                gain=2**0.5
             )
         ),
         type="DeepPrivacyV1"),

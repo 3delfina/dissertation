@@ -1,5 +1,4 @@
 import torch
-
 from ..base import Module
 
 
@@ -22,7 +21,7 @@ class RunningAverageGenerator(Module):
                                         normal_generator.parameters()):
             assert avg_param.shape == cur_param.shape
             avg_param.data = self.ra_beta * avg_param + \
-                             (1 - self.ra_beta) * cur_param
+                (1 - self.ra_beta) * cur_param
 
     def forward_train(self, *args, **kwargs):
         return [self(*args, **kwargs)]

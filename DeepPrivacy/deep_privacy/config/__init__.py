@@ -1,5 +1,4 @@
 import argparse
-
 from .base import Config
 
 

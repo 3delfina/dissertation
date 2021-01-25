@@ -1,8 +1,7 @@
 import numpy as np
 import torch
 import tqdm
-
-from DeepPrivacy.deep_privacy import torch_utils
+from deep_privacy import torch_utils
 from .infer import truncated_z
 
 
@@ -25,7 +24,7 @@ def inpaint_images(
             im = torch_utils.to_cuda(im)
             mask = torch_utils.to_cuda(mask)
             assert im.shape[0] == mask.shape[0]
-            assert im.shape[2:] == mask.shape[2:], \
+            assert im.shape[2:] == mask.shape[2:],\
                 f"im shape: {im.shape}, mask shape: {mask.shape}"
             z = truncated_z(im, generator.z_shape, 0)
             condition = mask * im

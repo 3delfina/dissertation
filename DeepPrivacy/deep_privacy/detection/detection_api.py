@@ -1,12 +1,10 @@
-import typing
-
-import cv2
-import face_detection
 import numpy as np
+import typing
 import torch
-from DeepPrivacy.deep_privacy import torch_utils
-from DeepPrivacy.deep_privacy.box_utils import clip_box, expand_bbox, cut_face
-
+import face_detection
+import cv2
+from deep_privacy import torch_utils
+from deep_privacy.box_utils import clip_box, expand_bbox, cut_face
 from . import keypoint_rcnn
 from .build import DETECTOR_REGISTRY
 from .utils import match_bbox_keypoint
@@ -136,8 +134,8 @@ class ImageAnnotation:
         return keypoint
 
     def __repr__(self):
-        return f"Image Annotation. BBOX_XYXY: {self.bbox_XYXY.shape}" + \
-               f" Keypoints: {self.keypoints.shape}"
+        return f"Image Annotation. BBOX_XYXY: {self.bbox_XYXY.shape}" +\
+            f" Keypoints: {self.keypoints.shape}"
 
     def __len__(self):
         return self.keypoints.shape[0]
@@ -195,9 +193,9 @@ class ImageAnnotation:
 
         # expanded bbox might go outside of image.
         im[max(0, y0):min(y1, im.shape[0]),
-        max(0, x0):min(x1, im.shape[1])] = face[
-                                           max(-y0, 0): min(face.shape[0], face.shape[1] - (y1 - im.shape[0])),
-                                           max(-x0, 0): min(face.shape[0], face.shape[0] - (x1 - im.shape[1]))]
+           max(0, x0):min(x1, im.shape[1])] = face[
+            max(-y0, 0): min(face.shape[0], face.shape[1] - (y1 - im.shape[0])),
+            max(-x0, 0): min(face.shape[0], face.shape[0] - (x1 - im.shape[1]))]
 
         if self.align_faces:
             matrix, _ = generate_rotation_matrix(
@@ -232,8 +230,8 @@ class ImageAnnotation:
             if self.resize_background:
                 face = cut_face(im, expanded_bbox, pad_im=False)
                 orig_shape = face.shape[:2][::-1]
-                face = cv2.resize(face, (self.generator_imsize * 2, self.generator_imsize * 2))
-
+                face = cv2.resize(face, (self.generator_imsize*2, self.generator_imsize*2))
+                
                 x0, y0, x1, y1 = clip_box(expanded_bbox, im)
                 im[y0:y1, x0:x1] = cv2.resize(face, orig_shape)
         return im
@@ -306,10 +304,9 @@ class RCNNDetector(BaseDetector):
                 boxes = self.face_detector.batched_detect(im[None])
                 boxes = boxes[0][:, :4]
                 im_bboxes.append(boxes.astype(int))
-        # print(im_bboxes)
         return im_bboxes
 
     def get_detections(self, images, im_bboxes=None):
         im_bboxes = self.detect_faces(images, im_bboxes)
         keypoints = self.keypoint_detector.batch_detect_keypoints(images)
-        return self.post_process_detections(images, im_bboxes, keypoints), im_bboxes
+        return self.post_process_detections(images, im_bboxes, keypoints)

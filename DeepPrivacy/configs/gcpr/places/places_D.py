@@ -1,3 +1,4 @@
+
 _base_config_ = "../../places2.py"
 models = dict(
     scalar_pose_input=False,
