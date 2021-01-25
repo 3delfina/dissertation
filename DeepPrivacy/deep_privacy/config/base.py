@@ -1,13 +1,11 @@
-import json
 import pathlib
+import tempfile
 import shutil
 import sys
-import tempfile
+import json
 from importlib import import_module
-
 from addict import Dict
-
-from DeepPrivacy.deep_privacy import logger
+from deep_privacy import logger
 
 
 def isfloat(x):
@@ -264,7 +262,6 @@ class Config(object):
 
 if __name__ == "__main__":
     import argparse
-
     parser = argparse.ArgumentParser()
     parser.add_argument("filepath")
     cfg = Config.fromfile(parser.parse_args().filepath)

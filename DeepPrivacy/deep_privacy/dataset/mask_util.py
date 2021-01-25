@@ -1,7 +1,6 @@
 import math
-import typing
-
 import numpy as np
+import typing
 from PIL import Image, ImageDraw
 
 
@@ -83,8 +82,8 @@ def brush_stroke_mask(img_shape: typing.Tuple[int]) -> np.ndarray:
                     np.random.randint(
                         0, h))))
             for i in range(num_vertex):
-                r = np.random.normal(average_radius, average_radius // 2)
-                r = np.clip(r, 0, 2 * average_radius)
+                r = np.random.normal(average_radius, average_radius//2)
+                r = np.clip(r, 0, 2*average_radius)
                 new_x = np.clip(vertex[-1][0] + r * math.cos(angles[i]), 0, w)
                 new_y = np.clip(vertex[-1][1] + r * math.sin(angles[i]), 0, h)
                 vertex.append((int(new_x), int(new_y)))
@@ -106,7 +105,6 @@ def brush_stroke_mask(img_shape: typing.Tuple[int]) -> np.ndarray:
         mask = np.asarray(mask, np.bool)
         mask = np.reshape(mask, (H, W))
         return 1 - mask
-
     return generate_mask(img_shape[0], img_shape[1])
 
 

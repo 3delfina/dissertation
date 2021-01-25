@@ -1,13 +1,10 @@
-import os
-
-os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
 # import moviepy.editor as mp
 import cv2
 import numpy as np
 import pathlib
 import typing
-from DeepPrivacy.deep_privacy.visualization import utils as vis_utils
-from DeepPrivacy.deep_privacy.detection import build_detector, ImageAnnotation
+from deep_privacy.visualization import utils as vis_utils
+from deep_privacy.detection import build_detector, ImageAnnotation
 
 
 class Anonymizer:
@@ -29,17 +26,18 @@ class Anonymizer:
             images: typing.List[np.ndarray],
             im_bboxes: typing.List[np.ndarray] = None,
     ) -> typing.List[ImageAnnotation]:
-        image_annotations, face_boxes = self.detector.get_detections(
+        image_annotations = self.detector.get_detections(
             images, im_bboxes=im_bboxes,
         )
-        return image_annotations, face_boxes
+
+        return image_annotations
 
     def detect_and_anonymize_images(
             self,
             images: typing.List[np.ndarray],
             im_bboxes: typing.List[np.ndarray] = None,
             return_annotations: bool = False):
-        image_annotations, face_boxes = self.get_detections(
+        image_annotations = self.get_detections(
             images, im_bboxes)
 
         anonymized_images = self.anonymize_images(
@@ -47,8 +45,8 @@ class Anonymizer:
             image_annotations
         )
         if return_annotations:
-            return anonymized_images, image_annotations, face_boxes
-        return anonymized_images, None, face_boxes
+            return anonymized_images, image_annotations
+        return anonymized_images
 
     def anonymize_images(self,
                          images: np.ndarray,
@@ -60,7 +58,7 @@ class Anonymizer:
                               save_paths: typing.List[pathlib.Path],
                               im_bboxes=None):
         images = [cv2.imread(str(p))[:, :, ::-1] for p in image_paths]
-        anonymized_images, image_annotations, face_boxes = self.detect_and_anonymize_images(
+        anonymized_images, image_annotations = self.detect_and_anonymize_images(
             images, im_bboxes, return_annotations=True)
 
         for image_idx, (new_path, anon_im) in enumerate(
@@ -76,13 +74,12 @@ class Anonymizer:
                 annotation.keypoints
             )
             cv2.imwrite(str(new_path), anon_im[:, :, ::-1])
-            # print("Saving to:", new_path)
-            return face_boxes
+            print("Saving to:", new_path)
 
-            # to_save = np.concatenate((annotated_im, anon_im), axis=1)
-            # new_name = new_path.stem + "_detected_left_anonymized_right.jpg"
-            # debug_impath = new_path.parent.joinpath(new_name)
-            # cv2.imwrite(str(debug_impath), to_save[:, :, ::-1])
+            to_save = np.concatenate((annotated_im, anon_im), axis=1)
+            new_name = new_path.stem + "_detected_left_anonymized_right.jpg"
+            debug_impath = new_path.parent.joinpath(new_name)
+            cv2.imwrite(str(debug_impath), to_save[:, :, ::-1])
 
     # def anonymize_video(self, video_path: pathlib.Path,
     #                     target_path: pathlib.Path,

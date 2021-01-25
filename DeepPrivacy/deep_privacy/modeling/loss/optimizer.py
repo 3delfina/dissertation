@@ -1,15 +1,12 @@
-import typing
-from typing import Tuple
-
-import numpy as np
 import torch
-from DeepPrivacy.deep_privacy import torch_utils
-from DeepPrivacy.deep_privacy.modeling import models
-from DeepPrivacy.deep_privacy.utils import build_from_cfg
-
+import typing
+import numpy as np
+from deep_privacy import torch_utils
+from deep_privacy.modeling import models
+from deep_privacy.utils import build_from_cfg
 from .build import CRITERION_REGISTRY
+from typing import Tuple
 from .loss import GradientPenalty, GanCriterion
-
 try:
     from apex import amp
     from apex.optimizers import FusedAdam
@@ -106,7 +103,7 @@ class LossOptimizer:
             [self.g_optimizer, self.d_optimizer],
             opt_level=self._amp_opt_level,
             num_losses=len(self.criterions_D) + len(self.criterions_G),
-            max_loss_scale=2. ** 17,
+            max_loss_scale=2.**17,
         )
         return self.generator, self.discriminator
 

@@ -1,6 +1,8 @@
+
 import numpy as np
-import torch
 from skimage.measure import compare_ssim
+import torch
+from torch.autograd import Variable
 
 from . import dist_model
 
@@ -12,7 +14,7 @@ class PerceptualLoss(torch.nn.Module):
         # def __init__(self, model='net', net='vgg', use_gpu=True): # "default"
         # way of using VGG as a perceptual loss
         super(PerceptualLoss, self).__init__()
-        #        print('Setting up Perceptual loss...')
+#        print('Setting up Perceptual loss...')
         self.use_gpu = use_gpu
         self.spatial = spatial
         self.gpu_ids = gpu_ids
@@ -24,9 +26,8 @@ class PerceptualLoss(torch.nn.Module):
             colorspace=colorspace,
             spatial=self.spatial,
             gpu_ids=gpu_ids)
-
-    #        print('...[%s] initialized'%self.model.name())
-    #        print('...Done')
+#        print('...[%s] initialized'%self.model.name())
+#        print('...Done')
 
     def forward(self, pred, target, normalize=False):
         """
@@ -46,11 +47,11 @@ class PerceptualLoss(torch.nn.Module):
 
 
 def l2(p0, p1, range=255.):
-    return .5 * np.mean((p0 / range - p1 / range) ** 2)
+    return .5 * np.mean((p0 / range - p1 / range)**2)
 
 
 def psnr(p0, p1, peak=255.):
-    return 10 * np.log10(peak ** 2 / np.mean((1. * p0 - 1. * p1) ** 2))
+    return 10 * np.log10(peak**2 / np.mean((1. * p0 - 1. * p1)**2))
 
 
 def dssim(p0, p1, range=255.):
@@ -60,7 +61,7 @@ def dssim(p0, p1, range=255.):
 def rgb2lab(in_img, mean_cent=False):
     from skimage import color
     img_lab = color.rgb2lab(in_img)
-    if (mean_cent):
+    if(mean_cent):
         img_lab[:, :, 0] = img_lab[:, :, 0] - 50
     return img_lab
 
@@ -81,9 +82,9 @@ def tensor2tensorlab(image_tensor, to_norm=True, mc_only=False):
 
     img = tensor2im(image_tensor)
     img_lab = color.rgb2lab(img)
-    if (mc_only):
+    if(mc_only):
         img_lab[:, :, 0] = img_lab[:, :, 0] - 50
-    if (to_norm and not mc_only):
+    if(to_norm and not mc_only):
         img_lab[:, :, 0] = img_lab[:, :, 0] - 50
         img_lab = img_lab / 100.
 
@@ -99,7 +100,7 @@ def tensorlab2tensor(lab_tensor, return_inbnd=False):
     lab[:, :, 0] = lab[:, :, 0] + 50
 
     rgb_back = 255. * np.clip(color.lab2rgb(lab.astype('float')), 0, 1)
-    if (return_inbnd):
+    if(return_inbnd):
         # convert back to lab, see if we match
         lab_back = color.rgb2lab(rgb_back.astype('uint8'))
         mask = 1. * np.isclose(lab_back, lab, atol=2.)

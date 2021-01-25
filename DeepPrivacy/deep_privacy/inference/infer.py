@@ -1,13 +1,11 @@
 import argparse
-from typing import List
-
-import numpy as np
 import torch
-
-from DeepPrivacy.deep_privacy import torch_utils
-from DeepPrivacy.deep_privacy import config, logger
-from DeepPrivacy.deep_privacy import modeling
-from DeepPrivacy.deep_privacy.engine.checkpointer import get_checkpoint, load_checkpoint_from_url
+import numpy as np
+from deep_privacy.engine.checkpointer import get_checkpoint, load_checkpoint_from_url
+from typing import List
+from deep_privacy import config, logger
+import deep_privacy.torch_utils as torch_utils
+from deep_privacy import modeling
 
 
 def init_generator(cfg, ckpt=None):

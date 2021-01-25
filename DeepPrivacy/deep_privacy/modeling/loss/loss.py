@@ -1,8 +1,7 @@
 import torch
-from DeepPrivacy.deep_privacy.modeling import models
-
-from .adversarial_loss import GanCriterion
 from .build import CRITERION_REGISTRY
+from deep_privacy.modeling import models
+from .adversarial_loss import GanCriterion
 
 
 @CRITERION_REGISTRY.register_module
@@ -71,7 +70,7 @@ class GradientPenalty(GanCriterion):
                 logit = ((1 - mask) * logit).view(x_hat.shape[0], -1).sum(dim=1)
                 denom = (1 - mask).view(x_hat.shape[0], -1).sum(dim=1) + 1e-7
                 logit = (logit / denom)
-            #            logit = logit.sum()
+#            logit = logit.sum()
             grad = torch.autograd.grad(
                 outputs=logit,
                 inputs=x_hat,
@@ -129,8 +128,8 @@ class PosePredictionPenalty(GanCriterion):
         landmarks = batch["landmarks"].clone()
         # Normalize output to have a mean of 0
         landmarks = landmarks * 2 - 1
-        real_pose_loss = (landmarks - real_pose_pred) ** 2
-        fake_pose_loss = (landmarks - fake_pose_pred) ** 2
+        real_pose_loss = (landmarks - real_pose_pred)**2
+        fake_pose_loss = (landmarks - fake_pose_pred)**2
         to_log = dict(
             real_pose_loss=real_pose_loss.mean().detach(),
             fake_pose_loss=fake_pose_loss.mean().detach()
@@ -141,6 +140,7 @@ class PosePredictionPenalty(GanCriterion):
 
 @CRITERION_REGISTRY.register_module
 class L1Loss(GanCriterion):
+
     REQUIRES_D_SCORE = False
 
     def __init__(self, weight, *args, **kwargs):

@@ -33,16 +33,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import pathlib
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-
 import numpy as np
 import torch
-from PIL import Image
 from scipy import linalg
 from torch.nn.functional import adaptive_avg_pool2d
-
-from DeepPrivacy.deep_privacy import torch_utils, file_util
+from PIL import Image
 from .inception import InceptionV3
+from deep_privacy import torch_utils, file_util
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 
 def imread(filename):
@@ -198,6 +196,7 @@ def calculate_fid(images1, images2, batch_size, dims):
 
 
 if __name__ == '__main__':
+
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument('path', type=str, nargs=2,
                         help=('Path to the generated images or '

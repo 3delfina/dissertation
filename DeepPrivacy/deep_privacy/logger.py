@@ -1,11 +1,10 @@
-import logging
-import math
-import pathlib
-
 import torchvision
+import pathlib
+import math
+import logging
+from . import torch_utils
 from torch.utils.tensorboard import SummaryWriter
 
-from . import torch_utils
 
 writer = None
 global_step = 0

@@ -1,12 +1,11 @@
-import os
 import pathlib
-from urllib.parse import urlparse
-
 import torch
-from DeepPrivacy.deep_privacy import logger, torch_utils
-from DeepPrivacy.deep_privacy.config import Config
-from DeepPrivacy.deep_privacy.inference.deep_privacy_anonymizer import DeepPrivacyAnonymizer
-from DeepPrivacy.deep_privacy.inference.infer import load_model_from_checkpoint
+import os
+from urllib.parse import urlparse
+from deep_privacy import logger, torch_utils
+from deep_privacy.config import Config
+from deep_privacy.inference.infer import load_model_from_checkpoint
+from deep_privacy.inference.deep_privacy_anonymizer import DeepPrivacyAnonymizer
 
 available_models = [
     "fdf128_rcnn512",
@@ -57,14 +56,15 @@ def build_anonymizer(
                 opts="anonymizer.truncation_level=5, anonymizer.batch_size=32"
     """
     if config_path is None:
-        assert model_name in available_models, \
+        print(config_path)
+        assert model_name in available_models,\
             f"{model_name} not in available models: {available_models}"
         cfg = get_config(config_urls[model_name])
     else:
         cfg = Config.fromfile(config_path)
-    # logger.info("Loaded model:" + cfg.model_name)
+    logger.info("Loaded model:" + cfg.model_name)
     generator = load_model_from_checkpoint(cfg)
-    # logger.info(f"Generator initialized with {torch_utils.number_of_parameters(generator) / 1e6:.2f}M parameters")
+    logger.info(f"Generator initialized with {torch_utils.number_of_parameters(generator)/1e6:.2f}M parameters")
     cfg.anonymizer.truncation_level = truncation_level
     cfg.anonymizer.batch_size = batch_size
     cfg.anonymizer.fp16_inference = fp16_inference

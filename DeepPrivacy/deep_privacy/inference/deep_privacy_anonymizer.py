@@ -1,14 +1,12 @@
-import pathlib
-import typing
-
-import cv2
 import numpy as np
 import torch
-
-from DeepPrivacy.deep_privacy import torch_utils
-from DeepPrivacy.deep_privacy.detection.detection_api import ImageAnnotation
-from . import infer
+import deep_privacy.torch_utils as torch_utils
+import cv2
+import pathlib
+import typing
+from deep_privacy.detection.detection_api import ImageAnnotation
 from .anonymizer import Anonymizer
+from . import infer
 
 
 def batched_iterator(batch, batch_size):
@@ -44,7 +42,7 @@ class DeepPrivacyAnonymizer(Anonymizer):
     def _get_face(self, batch):
         keys = ["condition", "mask", "landmarks", "z"]
         forward = [batch[k] for k in keys]
-        #        print([x.shape for x in forward])
+#        print([x.shape for x in forward])
         with torch.cuda.amp.autocast(enabled=self.fp16_inference):
             return self.generator(*forward).cpu()
 

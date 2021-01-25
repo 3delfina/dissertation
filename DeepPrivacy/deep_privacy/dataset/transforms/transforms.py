@@ -1,7 +1,6 @@
+import numpy as np
 import albumentations
 import cv2
-import numpy as np
-
 from .build import TRANSFORM_REGISTRY
 
 
@@ -37,7 +36,7 @@ class FlattenLandmark:
         return
 
     def __call__(self, container, **kwargs):
-        assert "landmarks" in container, \
+        assert "landmarks" in container,\
             f"Did not find landmarks in container. {container.keys()}"
         landmarks_XY = container["landmarks"]
         landmarks_XY = landmarks_XY.reshape(-1)

@@ -1,5 +1,4 @@
-from DeepPrivacy.deep_privacy.utils import build_from_cfg, Registry
-
+from deep_privacy.utils import build_from_cfg, Registry
 from .utils import NetworkWrapper
 
 DISCRIMINATOR_REGISTRY = Registry("DISCRIMINATOR_REGISTRY")
