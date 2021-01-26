@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from deep_privacy.torch_utils import to_cuda, image_to_torch
+from DeepPrivacy.deep_privacy.torch_utils import to_cuda, image_to_torch
 from torchvision.models.detection import keypointrcnn_resnet50_fpn
 
 

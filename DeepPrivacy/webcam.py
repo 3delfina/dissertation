@@ -3,10 +3,10 @@ import cv2
 import time
 import numpy as np
 import torch
-from deep_privacy import cli
-from deep_privacy.visualization import utils as vis_utils
-from deep_privacy.utils import BufferlessVideoCapture
-from deep_privacy.build import build_anonymizer
+from DeepPrivacy.deep_privacy import cli
+from DeepPrivacy.deep_privacy.visualization import utils as vis_utils
+from DeepPrivacy.deep_privacy.utils import BufferlessVideoCapture
+from DeepPrivacy.deep_privacy.build import build_anonymizer
 # Configs
 torch.backends.cudnn.benchmark = False
 parser = cli.get_parser()

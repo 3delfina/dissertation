@@ -3,8 +3,8 @@ import typing
 import torch
 import face_detection
 import cv2
-from deep_privacy import torch_utils
-from deep_privacy.box_utils import clip_box, expand_bbox, cut_face
+from DeepPrivacy.deep_privacy import torch_utils
+from DeepPrivacy.deep_privacy.box_utils import clip_box, expand_bbox, cut_face
 from . import keypoint_rcnn
 from .build import DETECTOR_REGISTRY
 from .utils import match_bbox_keypoint
@@ -231,7 +231,7 @@ class ImageAnnotation:
                 face = cut_face(im, expanded_bbox, pad_im=False)
                 orig_shape = face.shape[:2][::-1]
                 face = cv2.resize(face, (self.generator_imsize*2, self.generator_imsize*2))
-                
+
                 x0, y0, x1, y1 = clip_box(expanded_bbox, im)
                 im[y0:y1, x0:x1] = cv2.resize(face, orig_shape)
         return im
@@ -309,4 +309,4 @@ class RCNNDetector(BaseDetector):
     def get_detections(self, images, im_bboxes=None):
         im_bboxes = self.detect_faces(images, im_bboxes)
         keypoints = self.keypoint_detector.batch_detect_keypoints(images)
-        return self.post_process_detections(images, im_bboxes, keypoints)
+        return self.post_process_detections(images, im_bboxes, keypoints), im_bboxes

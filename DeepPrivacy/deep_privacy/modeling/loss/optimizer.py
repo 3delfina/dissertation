@@ -1,9 +1,9 @@
 import torch
 import typing
 import numpy as np
-from deep_privacy import torch_utils
-from deep_privacy.modeling import models
-from deep_privacy.utils import build_from_cfg
+from DeepPrivacy.deep_privacy import torch_utils
+from DeepPrivacy.deep_privacy.modeling import models
+from DeepPrivacy.deep_privacy.utils import build_from_cfg
 from .build import CRITERION_REGISTRY
 from typing import Tuple
 from .loss import GradientPenalty, GanCriterion

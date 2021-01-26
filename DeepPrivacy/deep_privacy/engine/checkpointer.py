@@ -1,5 +1,5 @@
 import torch
-from deep_privacy import logger
+from DeepPrivacy.deep_privacy import logger
 import pathlib
 
 
@@ -63,7 +63,6 @@ def get_checkpoint_step(output_dir: str, validation_checkpoint_step: int):
         return validation_checkpoint_step
     directory = _get_checkpoint_path(output_dir)
     ckpt_path = get_previous_checkpoints(directory)[0]
-    print(ckpt_path)
     ckpt_path = pathlib.Path(ckpt_path)
     step = ckpt_path.stem.replace("step_", "")
     step = step.replace(".ckpt", "")

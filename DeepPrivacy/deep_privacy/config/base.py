@@ -5,7 +5,7 @@ import sys
 import json
 from importlib import import_module
 from addict import Dict
-from deep_privacy import logger
+from DeepPrivacy.deep_privacy import logger
 
 
 def isfloat(x):

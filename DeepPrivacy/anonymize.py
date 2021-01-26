@@ -1,4 +1,4 @@
-from deep_privacy import cli
+from DeepPrivacy.deep_privacy import cli
 
 
 if __name__ == "__main__":

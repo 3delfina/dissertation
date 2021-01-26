@@ -3,9 +3,9 @@ import numpy as np
 import typing
 import cv2
 import time
-from deep_privacy import utils, file_util
-from deep_privacy.config import Config,  default_parser
-from deep_privacy.inference import infer, inpaint_inference
+from DeepPrivacy.deep_privacy import utils, file_util
+from DeepPrivacy.deep_privacy.config import Config,  default_parser
+from DeepPrivacy.deep_privacy.inference import infer, inpaint_inference
 import torch
 
 torch.manual_seed(0)

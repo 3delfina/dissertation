@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from . import blocks, layers
-from deep_privacy import torch_utils
+from DeepPrivacy.deep_privacy import torch_utils
 
 
 def transition_features(x_old, x_new, transition_variable):
