@@ -1,6 +1,6 @@
 import signal
 import pathlib
-from deep_privacy import logger
+from DeepPrivacy.deep_privacy import logger
 from .base import HookBase, HOOK_REGISTRY
 
 

@@ -1,8 +1,8 @@
 import torch
-from deep_privacy import torch_utils
-from deep_privacy import logger
-from deep_privacy.dataset import build_dataloader_train, build_dataloader_val
-from deep_privacy.modeling import loss, models
+from DeepPrivacy.deep_privacy import torch_utils
+from DeepPrivacy.deep_privacy import logger
+from DeepPrivacy.deep_privacy.dataset import build_dataloader_train, build_dataloader_val
+from DeepPrivacy.deep_privacy.modeling import loss, models
 from .base_trainer import BaseTrainer
 from .hooks import build_hooks
 

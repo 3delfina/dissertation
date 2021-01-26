@@ -1,6 +1,6 @@
 import torch
 from .build import CRITERION_REGISTRY
-from deep_privacy.modeling import models
+from DeepPrivacy.deep_privacy.modeling import models
 from .adversarial_loss import GanCriterion
 
 

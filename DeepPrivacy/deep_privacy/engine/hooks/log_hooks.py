@@ -1,10 +1,10 @@
 import torch
 import logging
 import time
-from deep_privacy import torch_utils, logger
-from deep_privacy.metrics import metric_api
+from DeepPrivacy.deep_privacy import torch_utils, logger
+from DeepPrivacy.deep_privacy.metrics import metric_api
 from .base import HookBase, HOOK_REGISTRY
-from deep_privacy.inference import infer
+from DeepPrivacy.deep_privacy.inference import infer
 try:
     from apex import amp
 except ImportError:

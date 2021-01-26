@@ -6,7 +6,7 @@ import tqdm
 import multiprocessing
 from skimage.measure import compare_ssim, compare_psnr
 from .perceptual_similarity import PerceptualLoss
-from deep_privacy import torch_utils
+from DeepPrivacy.deep_privacy import torch_utils
 from .fid_pytorch import fid as fid_api
 from typing import List, Dict
 
@@ -135,7 +135,7 @@ def print_all_metrics(images1: np.ndarray, images2: np.ndarray):
 if __name__ == "__main__":
     import argparse
     import pathlib
-    from deep_privacy import file_util
+    from DeepPrivacy.deep_privacy import file_util
     parser = argparse.ArgumentParser()
     parser.add_argument("path1")
     parser.add_argument("path2")

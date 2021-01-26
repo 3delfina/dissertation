@@ -1,7 +1,7 @@
 import numpy as np
-from deep_privacy import torch_utils, logger
+from DeepPrivacy.deep_privacy import torch_utils, logger
 from .trainer import Trainer
-from deep_privacy.dataset import build_dataloader_train, build_dataloader_val
+from DeepPrivacy.deep_privacy.dataset import build_dataloader_train, build_dataloader_val
 
 
 class ProgressiveTrainer(Trainer):

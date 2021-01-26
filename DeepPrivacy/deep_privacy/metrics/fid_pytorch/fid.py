@@ -39,7 +39,7 @@ from scipy import linalg
 from torch.nn.functional import adaptive_avg_pool2d
 from PIL import Image
 from .inception import InceptionV3
-from deep_privacy import torch_utils, file_util
+from DeepPrivacy.deep_privacy import torch_utils, file_util
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 

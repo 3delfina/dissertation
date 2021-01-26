@@ -2,9 +2,10 @@ import pathlib
 import os
 import typing
 import argparse
-from deep_privacy import logger
-from deep_privacy.inference.deep_privacy_anonymizer import DeepPrivacyAnonymizer
-from deep_privacy.build import build_anonymizer, available_models
+from django.conf import settings
+from DeepPrivacy.deep_privacy import logger
+from DeepPrivacy.deep_privacy.inference.deep_privacy_anonymizer import DeepPrivacyAnonymizer
+from DeepPrivacy.deep_privacy.build import build_anonymizer, available_models
 video_suffix = [".mp4"]
 image_suffix = [".jpg", ".jpeg", ".png"]
 
@@ -137,5 +138,34 @@ def main():
         anonymizer.anonymize_image_paths(image_paths, image_target_paths)
 
 
-if __name__ == "__main__":
-    main()
+def anonymize_and_get_faces(source_path, target_path):
+    # Namespace(config_path=None, end_time=None, model='fdf128_rcnn512', opts=None,
+    #           source_path='/home/marija/Downloads/lots.jpg', start_time=0, step=None,
+    #           target_path='/home/marija/Downloads/lots-fake.jpg')
+
+    model = 'fdf128_rcnn512'
+    # CONFIG = os.path.join(settings.BASE_DIR, '.cache', 'torch', 'deep_privacy_cache', 'fdf_512.json')
+    anonymizer, cfg = build_anonymizer(
+        model, opts=None, config_path=None,
+        return_cfg=True)
+    output_dir = cfg.output_dir
+    source_paths = get_source_files(source_path)
+
+    image_paths = [source_path for source_path in source_paths
+               if source_path.suffix in image_suffix]
+
+    image_target_paths = []
+    if len(image_paths) > 0:
+        image_target_paths = get_target_paths(image_paths, target_path, output_dir)
+
+    assert len(image_paths) == len(image_target_paths)
+    face_boxes = []
+    if len(image_paths) > 0:
+        face_boxes = anonymizer.anonymize_image_paths(image_paths, image_target_paths)
+    # print(face_boxes)
+    return face_boxes
+
+
+
+# if __name__ == "__main__":
+#     main()

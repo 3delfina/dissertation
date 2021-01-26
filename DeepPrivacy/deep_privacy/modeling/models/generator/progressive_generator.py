@@ -239,7 +239,7 @@ class Generator(RunningAverageGenerator, ProgressiveBase):
 
 
 if __name__ == "__main__":
-    from deep_privacy.config import Config, default_parser
+    from DeepPrivacy.deep_privacy.config import Config, default_parser
     args = default_parser().parse_args()
     cfg = Config.fromfile(args.config_path)
 

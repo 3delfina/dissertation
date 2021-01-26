@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import tqdm
-from deep_privacy import torch_utils
+from DeepPrivacy.deep_privacy import torch_utils
 from .infer import truncated_z
 
 

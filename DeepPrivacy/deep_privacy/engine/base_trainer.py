@@ -4,7 +4,7 @@ import weakref
 import collections
 from .checkpointer import Checkpointer
 from . import hooks
-from deep_privacy import logger
+from DeepPrivacy.deep_privacy import logger
 
 
 torch.manual_seed(0)

@@ -1,10 +1,10 @@
 import numpy as np
 import torch
-import deep_privacy.torch_utils as torch_utils
+from DeepPrivacy.deep_privacy import torch_utils
 import cv2
 import pathlib
 import typing
-from deep_privacy.detection.detection_api import ImageAnnotation
+from DeepPrivacy.deep_privacy.detection.detection_api import ImageAnnotation
 from .anonymizer import Anonymizer
 from . import infer
 
