@@ -7,9 +7,6 @@ from django.shortcuts import get_object_or_404
 
 import ast
 import os
-import logging
-# import torch
-# logger = logging.getLogger()
 
 
 def _get_file_paths(filename_original, filename_addition):
@@ -61,9 +58,6 @@ def get_avatar(photo, face_choices_int):
 
 
 def get_deepfake_all(photo):
-    # TORCH = os.path.join(settings.BASE_DIR, '.cache', 'torch')
-    # print(TORCH)
-    # torch.hub.set_dir(TORCH)
     original_path, obfuscation_path, deepfake_filename = _get_file_paths(photo.participant_photo.name,
                                                                             "_participant_deepfake_all.")
     _, faces_path, faces_filename = _get_file_paths(photo.participant_photo.name,
@@ -74,16 +68,6 @@ def get_deepfake_all(photo):
     photo.faces_location_arr = faces_str
     photo.participant_faces = faces_filename
     return photo
-
-
-# def locate_faces(photo):
-#     original_path, obfuscation_path, obfuscation_filename = _get_file_paths(photo.participant_photo.name,
-#                                                                             "_participant_faces.")
-#     faces_str, count = number_faces(original_path, obfuscation_path)
-#     photo.face_count = count
-#     photo.faces_location_arr = faces_str
-#     photo.participant_faces = obfuscation_filename
-#     return photo
 
 
 def index(request):
@@ -101,7 +85,6 @@ def index(request):
             photo.save()
             participant.last_photo_id = photo.id
             participant.save()
-            # return render(request, 'obfuscator/display.html', {'participant': participant})
             create_session(request, participant.id)
             return redirect('display')
     else:
@@ -114,7 +97,6 @@ def index(request):
 
 def display(request):
     id = access_session(request)
-    # logger.info("participant_id is:" + str(id))
     participant = get_object_or_404(Participant, pk=id)
     # participant = Participant.objects.get(participant_id=participant_id)
     photo = Photo.objects.get(id=participant.last_photo_id)
