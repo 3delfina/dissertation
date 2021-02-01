@@ -76,10 +76,10 @@ class Anonymizer:
             cv2.imwrite(str(new_path), anon_im[:, :, ::-1])
             print("Saving to:", new_path)
 
-            to_save = np.concatenate((annotated_im, anon_im), axis=1)
-            new_name = new_path.stem + "_detected_left_anonymized_right.jpg"
-            debug_impath = new_path.parent.joinpath(new_name)
-            cv2.imwrite(str(debug_impath), to_save[:, :, ::-1])
+            # to_save = np.concatenate((annotated_im, anon_im), axis=1)
+            # new_name = new_path.stem + "_detected_left_anonymized_right.jpg"
+            # debug_impath = new_path.parent.joinpath(new_name)
+            # cv2.imwrite(str(debug_impath), to_save[:, :, ::-1])
 
     def anonymize_video(self, video_path: pathlib.Path,
                         target_path: pathlib.Path,
