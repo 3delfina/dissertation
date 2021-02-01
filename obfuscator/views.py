@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 import ast
 import os
 import logging
-import torch
+# import torch
 # logger = logging.getLogger()
 
 
@@ -61,9 +61,9 @@ def get_avatar(photo, face_choices_int):
 
 
 def get_deepfake_all(photo):
-    TORCH = os.path.join(settings.BASE_DIR, '.cache', 'torch')
-    print(TORCH)
-    torch.hub.set_dir(TORCH)
+    # TORCH = os.path.join(settings.BASE_DIR, '.cache', 'torch')
+    # print(TORCH)
+    # torch.hub.set_dir(TORCH)
     original_path, obfuscation_path, deepfake_filename = _get_file_paths(photo.participant_photo.name,
                                                                             "_participant_deepfake_all.")
     _, faces_path, faces_filename = _get_file_paths(photo.participant_photo.name,

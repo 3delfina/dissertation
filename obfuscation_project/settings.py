@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 import dj_database_url
-import torch
+# import torch
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,8 +24,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-TORCH = os.path.join(BASE_DIR, '.cache', 'torch')
-torch.hub.set_dir(TORCH)
+# TORCH = os.path.join(BASE_DIR, '.cache', 'torch')
+# torch.hub.set_dir(TORCH)
 
 
 # Simplified static file serving.
