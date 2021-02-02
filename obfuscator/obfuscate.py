@@ -12,10 +12,17 @@ from DeepPrivacy.deep_privacy.cli import anonymize_and_get_faces
 
 def blur_image(img_path, img_path_final, faces):
     img = Image.open(img_path)
+    width, height = img.size
+    smaller_side = width if width < height else height
+    if smaller_side < 552:
+        radius = (smaller_side * 4) // 552
+    else:
+        radius = 4
+
     for (x, y, w, h) in faces:
         box = (x, y, w, h)
         ic = img.crop(box)
-        ic = ic.filter(ImageFilter.GaussianBlur(radius=4))
+        ic = ic.filter(ImageFilter.GaussianBlur(radius=radius))
         img.paste(ic, box)
     img.save(img_path_final)
     # image.show()
@@ -24,10 +31,17 @@ def blur_image(img_path, img_path_final, faces):
 def pixelate_image(img_path, img_path_final, faces):
     # Replicate Pixelate - Mosaic in Photoshop, cell size 15 square.
     img = Image.open(img_path)
+    width, height = img.size
+    smaller_side = width if width < height else height
+    if smaller_side < 552:
+        requested_size = (smaller_side * 15) // 552
+    else:
+        requested_size = 15
+
     for (x, y, w, h) in faces:
         box = (x, y, w, h)
         face = img.crop(box)
-        imgSmall = face.resize((15, 15), resample=Image.BILINEAR)
+        imgSmall = face.resize((requested_size, requested_size), resample=Image.BILINEAR)
         # Scale back up using NEAREST to original size
         result = imgSmall.resize(face.size, Image.NEAREST)
         img.paste(result, box)

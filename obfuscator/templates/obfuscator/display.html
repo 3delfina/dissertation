@@ -100,7 +100,7 @@
     <script type="text/javascript" charset="utf-8">
       function showLoadingMsg() {
         var show=document.getElementById("id_participant_photo").files.length;
-        console.log(show);
+        // console.log(show);
         if (show === 1 ){
           $.loadingBlockShow({
               imgPath: '../../static/obfuscator/icon.gif'
@@ -117,11 +117,9 @@
           Collect all .btn classes into a NodeList and comvert it into an array
        */
        var btnGroup = Array.from(document.getElementsByClassName("btn"));
-       console.log(btnGroup);
        /* Collect all .img classes into a NodeList and convert it into an array
        */
        var imgGroup = Array.from(document.getElementsByClassName('image'));
-       console.log(imgGroup);
        /* Iterate (loop) thru the imgGroup array with forEach() array
        || method.
        */// In each loop get a .btn from the btnGroup array's index
