@@ -14,7 +14,7 @@
                 textAlign: 'center',
                 marginTop: '20%'
             },
-            text: 'Loading, please wait...',
+            text: 'Processing the photo, please wait...',
             style: {
                 position: 'fixed',
                 width: '100%',
