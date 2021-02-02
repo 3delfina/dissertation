@@ -155,3 +155,11 @@ form{
 .clear {
   clear:both;
 }
+
+button{
+  cursor:pointer;
+}
+
+input[type=button] {
+  cursor:pointer;
+}
