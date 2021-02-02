@@ -48,4 +48,4 @@ class FacesForm(forms.Form):
         face_choices = tuple((x, x) for x in range(1, faces_count + 1))
         self.fields['face_choices'] = forms.MultipleChoiceField(choices=face_choices,
                                                                 widget=forms.CheckboxSelectMultiple())
-        self.fields['face_choices'].label = "Faces to obfuscate"
+        self.fields['face_choices'].label = "Select faces to obfuscate"

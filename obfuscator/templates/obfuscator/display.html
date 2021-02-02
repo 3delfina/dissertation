@@ -10,7 +10,7 @@
     <title>Photo Obfuscator</title>
     <link rel="shortcut icon" href="{% static 'obfuscator/favicon.ico' %}" />
     <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-     <script src="../../static/obfuscator/jquery.loading.block.js"></script>
+    <script src="../../static/obfuscator/jquery.loading.block.js"></script>
   <head>
 
   <body>
@@ -27,13 +27,12 @@
 
     <div class="main-area">
       <div class="group">
-          <div class="column span_1">Original photo
-            <img src="{{ photo.participant_photo.url}}">
-            <div class="small-text"><i>Filename: </i><u>{{ photo.participant_photo.name}}</u></div>
+          <div class="column span_1">Faces located
+              <img src="{{ photo.participant_faces.url}}">
+              <div class="small-text"><i>Filename: </i><u>{{ photo.participant_photo.name}}</u></div>
           </div>
-
-          <div class="column span_2">Faces located
-          <img src="{{ photo.participant_faces.url}}">
+          <div class="column span_2">
+              <div class=space></div>
               <form method="POST">
                   {% csrf_token %}
                   <table>
@@ -49,34 +48,53 @@
                   <button type="submit" onclick="showLoadingMsg()">Upload</button>
               </form>
           </div>
+          <div class="clear"></div>
       </div>
           {% if display %}
       <div class="group">
-              <div class="column span_1">Blurring
-                <img src="{{ photo.participant_blur.url}}">
+
+              <div class="column span_1">Original photo
+                <br><input type="button" value="Display/hide the original photo" class="btn"/>
+                <img src="{{ photo.participant_photo.url}}" class="image off">
               </div>
 
-              <div class="column span_2">Pixelation
-                <img src="{{ photo.participant_pixel.url}}">
+              <div class="column span_2">Blurring
+                <input type="button" value="Display/hide the blurred photo" class="btn"/>
+                <img src="{{ photo.participant_blur.url}}" class="image off">
               </div>
+
+              <div class="clear"></div>
       </div>
+
       <div class="group">
-              <div class="column span_1">DeepFake
-                <img src="{{ photo.participant_deepfake.url}}">
+              <div class="column span_1">Pixelation
+                <input type="button" value="Display/hide the pixelated photo" class="btn"/>
+                <img src="{{ photo.participant_pixel.url}}" class="image off">
               </div>
+
 
               <div class="column span_2">Masking
-                <img src="{{ photo.participant_masked.url}}">
+                <input type="button" value="Display/hide the masked photo" class="btn"/>
+                <img src="{{ photo.participant_masked.url}}" class="image off">
               </div>
+
+              <div class="clear"></div>
       </div>
+
       <div class="group">
-              <div class="column span_1">Avatar (emoji)
-                <img src="{{ photo.participant_avatar.url}}">
+              <div class="column span_1">DeepFake
+                <input type="button" value="Display/hide the DeepFake" class="btn"/>
+                <img src="{{ photo.participant_deepfake.url}}" class="image off">
               </div>
-              <div class="column span_2">
+
+              <div class="column span_2">Avatar (emoji)
+                <input type="button" value="Display/hide the avatar (emoji)" class="btn"/>
+                <img src="{{ photo.participant_avatar.url}}" class="image off">
               </div>
-          {% endif %}
+
+              <div class="clear"></div>
       </div>
+      {% endif %}
     </div>
 
     <script type="text/javascript" charset="utf-8">
@@ -93,6 +111,30 @@
 
        $( document ).ready(function() {
             $(window).scrollTop(300);
+       });
+
+       /* https://stackoverflow.com/questions/50557647/how-to-hide-and-show-images-by-clicking-on-html-button
+          Collect all .btn classes into a NodeList and comvert it into an array
+       */
+       var btnGroup = Array.from(document.getElementsByClassName("btn"));
+       console.log(btnGroup);
+       /* Collect all .img classes into a NodeList and convert it into an array
+       */
+       var imgGroup = Array.from(document.getElementsByClassName('image'));
+       console.log(imgGroup);
+       /* Iterate (loop) thru the imgGroup array with forEach() array
+       || method.
+       */// In each loop get a .btn from the btnGroup array's index
+       //// position that corresponds with the current index of the loop.
+       //// Register an onclick event handler that toggles the .off class
+       //// to a .img of the imgGroup array positioned at current loop
+       //// index.
+
+
+       imgGroup.forEach(function(img, idx) {
+         btnGroup[idx].onclick = function() {
+           img.classList.toggle('off');
+         }
        });
     </script>
   </body>

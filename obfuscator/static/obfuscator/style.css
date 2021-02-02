@@ -39,12 +39,23 @@ body{
   margin: 1% 0.5% 1% 0.5%;
 }
 
+.space{
+  margin-top: 1.35rem;
+}
+
+.column img {
+    width: 100%;
+    /*object-fit: cover;*/
+}
+
 /*.column:first-child {margin-left: 0.5%}*/
 
 /*  GROUPING  */
 .group:before,
 .group:after {
-  content: "";
+  /* content: ""; */
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
   display: table;
 }
 
@@ -65,6 +76,7 @@ body{
 @media only screen and (max-width: 1000px) {
   .column {margin: 1% 3% 1% 3%}
   .span_1, .span_2 {width: 95%}
+  .space {margin-top: 0.3rem;}
 }
 
 
@@ -128,4 +140,18 @@ ul.errorlist {
 
 form{
   margin-block-end: 0.3rem;
+}
+
+.off {
+  display: none;
+}
+
+.btn{
+  margin-top: 0.3rem;
+  margin-bottom: 0.2rem;
+  width: 100%;
+}
+
+.clear {
+  clear:both;
 }
