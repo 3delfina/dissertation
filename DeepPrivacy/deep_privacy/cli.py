@@ -152,7 +152,7 @@ def anonymize_and_get_faces(source_path, target_path):
     source_paths = get_source_files(source_path)
 
     image_paths = [source_path for source_path in source_paths
-               if source_path.suffix in image_suffix]
+               if source_path.suffix.lower() in image_suffix]
 
     image_target_paths = []
     if len(image_paths) > 0:
