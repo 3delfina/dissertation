@@ -19,7 +19,7 @@ def anonymize_face_simple(image, factor=3.0):
 	# kernel size
 	return cv2.GaussianBlur(image, (kW, kH), 0)
 
-img = cv2.imread('pexels-nathan-cowley-1300402.jpg')
+img = cv2.imread('test.jpg')
 img = imutils.resize(img, width=800)
 img = anonymize_face_simple(img, factor=10)
 cv2.imshow("img", img)
