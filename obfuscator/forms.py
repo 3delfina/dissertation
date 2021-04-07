@@ -9,9 +9,6 @@ class ParticipantForm(forms.ModelForm):
     class Meta:
         model = Participant
         fields = ['participant_id']
-        # widgets = {
-        #     'participant_id': forms.TextInput(attrs={'disabled': True}),
-        # }
 
     def __init__(self, *args, **kwargs):
         kwargs.update(initial={
@@ -32,9 +29,6 @@ class PhotoReuploadForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ['participant_photo']
-        # help_texts = {
-        #     'participant_photo': '',
-        # }
 
     def __init__(self, *args, **kwargs):
         super(PhotoReuploadForm, self).__init__(*args, **kwargs)

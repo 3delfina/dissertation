@@ -98,7 +98,6 @@ def index(request):
 def display(request):
     id = access_session(request)
     participant = get_object_or_404(Participant, pk=id)
-    # participant = Participant.objects.get(participant_id=participant_id)
     photo = Photo.objects.get(id=participant.last_photo_id)
 
     form = FacesForm(photo.face_count, request.POST)

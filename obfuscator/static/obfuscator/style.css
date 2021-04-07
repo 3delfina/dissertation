@@ -25,13 +25,6 @@ body{
   margin-right: 30%;
 }
 
-/*.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 50%);
-  grid-column-gap: 10px;
-  margin: 0px 10px 0px 10px;
-}*/
-
 .column{
   /* margin-bottom: 20px; */
   display: block;
@@ -47,8 +40,6 @@ body{
     width: 100%;
     /*object-fit: cover;*/
 }
-
-/*.column:first-child {margin-left: 0.5%}*/
 
 /*  GROUPING  */
 .group:before,
@@ -119,18 +110,9 @@ ul.errorlist {
 }
 
 .errorlist li {
-    /* border: 1px solid red; */
     color: red;
-    /* background: rgba(255, 0, 0, 0.15); */
-    /* list-style-position: inside; */
     display: block;
     font-size: 1rem;
-    /* margin: 0 0 3px; */
-    /* padding: 4px 5px; */
-    /* text-align: center;  */
-    /* border-radius: 3px; */
-    /* padding-bottom: 1rem; */
-
 }
 
 #id_face_choices{

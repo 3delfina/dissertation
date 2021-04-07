@@ -139,6 +139,7 @@ def main():
 
 
 def anonymize_and_get_faces(source_path, target_path):
+    # Our method used by Photo Obfuscator
     # Namespace(config_path=None, end_time=None, model='fdf128_rcnn512', opts=None,
     #           source_path='/home/marija/Downloads/lots.jpg', start_time=0, step=None,
     #           target_path='/home/marija/Downloads/lots-fake.jpg')
