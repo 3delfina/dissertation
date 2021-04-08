@@ -5,13 +5,14 @@ We built a web application called Photo Obfuscator that allows users to upload p
 
 The web application is currently deployed to http://mkhamis.pythonanywhere.com/.
 
-## Installation
+## Installation 
+   Install Python >= 3.6 and follow the steps below.
 ### Cloning the project and creating a virtual environment
     git clone https://github.com/3delfina/dissertation.git
     sudo pip3 install virtualenv
     virtualenv venv
     source venv/bin/activate
-### Installing the dependencies (since some of them need additional flags, we install them separately)
+### Installing the dependencies
     cd dissertation/
     pip install -r requirements.txt
 ### Migrating  
