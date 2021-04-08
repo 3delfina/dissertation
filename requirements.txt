@@ -61,9 +61,6 @@ tensorflow-cpu @ https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow_
 tensorflow-estimator==2.4.0
 termcolor==1.1.0
 tifffile==2020.9.3
-torch==1.7.1+cpu
-torchaudio==0.7.2
-torchvision==0.8.2+cpu
 tqdm==4.54.1
 typing-extensions==3.7.4.3
 urllib3==1.26.2
