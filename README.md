@@ -16,7 +16,6 @@ The web application is currently deployed to http://mkhamis.pythonanywhere.com/.
     cd dissertation/
     pip install -r requirements.txt
 ### Migrating  
-    python manage.py makemigrations
     python manage.py migrate
     
 ### Create a secret key for obfuscation_project/settings.py line 36
